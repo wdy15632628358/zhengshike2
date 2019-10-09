@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继承</title>
+</head>
+
+<body>
+    <script>
+        /*
+        类的： 继承： 
+              封装：高内聚 低耦合 
+              多态：
+        */
+        function Person(name, age) {
+            //call继承，这种继承方式只能继承私有属性
+            Animal.call(this, 10000);//把Animal的this换成了当前的实例，10000传给了Animal：10000给IQ
+            this.name = name;
+            this.age = age;
+
+        }
+        // Person.prototype = Animal.prototype;//person的原型指向animal的原型:有缺点
+        // Person.prototype = new Animal(666);//让Person的原型指向Animal的某个实例：有缺点造了个实例
+        Person.prototype = Object.create(Animal.prototype);//create创造了一个空对象 空对象的 __proto__指向了Animal的prototype
+        Person.prototype.eat = function () {
+            console.log('吃')
+        }
+        function Animal(iq) {
+            this.iq = iq;
+        }
+        Animal.prototype.move = function () {
+            console.log('能动')
+        }
+        Animal.prototype.sleep = function () {
+            console.log('睡')
+        }
+
+        var p1 = new Person('xm', 10)
+        p1.move();
+
+        /*------------------------------------------------*/
+        class Parent {
+            constructor() {
+                this.name = 'Parent',
+                    this.age = 100
+            }
+            say() {
+                console.log('你好')
+            }
+            static qqq = 456;//设置一个Parent私有的属性，Child.qqq也可以调用到
+        }
+        class Child extends Parent {
+            constructor() {
+                super();//写了 extend 和 constructor ，就必须写super();//super其实就是Parent的constructor             
+                this.money = 100;
+            }
+            play() {
+                console.log('玩游戏')
+            }
+        }
+        var xm = new Child();
+        console.log(xm);
+        console.log(xm.say());
+        console.log(xm.play());
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

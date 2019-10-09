@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>getType</title>
+</head>
+
+<body>
+    <script>
+
+        /*
+        //获取数组类型
+        Object.prototype.getType = function (str) {
+            var str = this.constructor.toString();//调取到基类上的tostring方法
+            str = str.slice(9, str.indexOf('('));//截取字符串
+            return str.toLocaleLowerCase();//首字母小写
+        }
+
+        ''.getType();//string
+        (1).getType();//number
+        [].getType();//array*/
+        /*----------------------------------------------------------------------------*/
+        /*
+        //封装一个数组末尾删除一个数和增加一个数
+        var ary = [1, 2, 3];
+        Array.prototype.myPop = function () {
+            //this就是当前实例
+            this.length--;//当前数组长度--
+            return this;//返回这个实例
+        }
+        Array.prototype.myPush = function (...ary) {
+            let tem = ary.length;//传入数组的长度
+            for (var i = 0; i < tem; i++) {//循环数组
+                this[this.length] = ary[i];//ary[ary.length]=12//在数组最后加一个12
+            }
+            return this;
+        }
+        console.log(ary.myPop().myPush(6, 6, 6).myPop().myPush(4, 5));*/
+
+        /*---------------------------------------------------------------------------*/
+        //数组翻转
+        
+        var arr = [1,2,3,4,5,6,6]
+         Array.prototype.myReverse = function () {
+             //0     length-1-0
+             //1     length-1-1
+             //2     length-1-2
+             for (var i = 0; i < this.length / 2; i++) {//循环过得就不要再循环了 循环一半
+                 var temp = this[i];
+                 this[i] = this[this.length - 1 - i];//把最后一项付给第一项
+                 this[this.length - 1 - i] = temp;//再把最后一项给当前
+             }
+             return this;
+         }
+         console.log(arr.myReverse());
+         
+         
+
+        /*----------------------------------------------------------------------------*/
+        /*//数组去重
+        var ary = [1, 1,2, 3, 3, 5, 5, 6, 5]
+        Array.prototype.unique = function () {
+            let arr = [...new Set(this)]//数组去重
+            this.length = 0;//数组长度清零
+            // arr.forEach(item => this.push(item))
+            this.push(...arr); 再把剩余的每一项push进去
+            return this;//返回这个实例
+
+        }
+        console.log(ary.unique());*/
+
+
+    </script>
+</body>
+
+</html>

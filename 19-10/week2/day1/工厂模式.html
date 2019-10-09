@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>工厂模式</title>
+</head>
+<body>
+    
+
+
+
+    <script>
+        function factory(name='zf',age=10,sex=1){//ES6赋默认值
+        //name = name||'zf'ES5的赋默认值
+            var obj = {
+                name,age,sex,
+                eat(){
+                    
+                },
+                play(){
+    
+                }
+            }
+            return obj;
+        }
+        // var per11 = factory('小明',10,1);
+        var per2 = factory(null,null,null);//只有这里传的是undefined的时候才走的默认值
+        console.log(per2)
+    
+        
+    </script>
+</body>
+</html>

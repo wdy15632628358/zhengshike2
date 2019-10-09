@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>原型模式</title>
+</head>
+
+<body>
+
+
+    <script>
+        function Person(name = 'zf', age = 10, sex = 1) {
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+        }
+        Person.prototype.eat = function () { console.log('吃') };
+        Person.prototype.play = function () { console.log('玩') };
+        var P1 = new Person();
+        var P2 = new Person();
+        console.log(P1, P2);
+
+
+
+        class Fn {
+            constructor(name, age) {//constructor就是指向函数本身的
+                this.name = name;
+                this.age = age;
+            }
+            eat(){}
+            play(){}
+        }
+        var f = new Fn('小红',15);
+        console.log(f);
+        //Fn只能通过new的方式执行
+    </script>
+</body>
+
+</html>

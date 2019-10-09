@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>复习</title>
+</head>
+
+<body>
+    <script>
+        /*
+        test:匹配
+        ecex:捕获
+            global:全局
+            ignoreCase:忽略大小写
+            mutiline:多行匹配
+    
+        //每一个正则都有一个lastindex属性，没有g，每次的lastindex都是；有g后，下一次的lastindex是上一次捕获结束的位置。
+        //若正则不匹配字符 则获取到的就是null。
+    
+        捕获的懒惰性：g 加上全局g解决
+        捕获的贪婪性：？量次后边加？解决
+    
+        var reg = /([a-z]+)(\d+)/
+        var str = '珠峰2019培训zf2020'
+        reg.exec(str):['zf2020','zf','2020']
+        exec的返回值是一个数组，数组中的第一项是大正则的内容，数组中第二项对应正则的第一个小分组，数组第三项对应正则的第二个小分组
+        */
+
+        RegExp.prototype.execAll = function (str) {//一次性捕获想要的
+            let _this = this;
+            if (!this.global) {
+                _this = eval(_this + 'g')
+            }
+            let res = _this.exec(str);
+            let ary = [];
+            while (res) {
+                ary.push(res);
+                res = _this.exec(str);
+            }
+            return ary;
+        }
+        var reg = /([a-z]+)(\d+)/
+        var str = '珠峰2019培训zf2020'
+        console.log(reg.execAll(str))//"zf2020", "zf", "2020",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

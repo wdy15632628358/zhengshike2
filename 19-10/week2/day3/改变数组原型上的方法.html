@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>排序去重</title>
+</head>
+<body>
+    
+
+    <script>
+    /*
+    原型重构：数组内置类的原型上的方法是可以修改的，但是不可以重构
+    
+    */
+    
+    // Array.prototype.unique = function(){
+        /*
+        第一种去重：并排序
+        //this 代表的就是当前的  ary 数组
+        var obj = {};
+        this.forEach(item => {
+            obj[item] = item;//把数组的每一项赋给定义的obj的对应下标的每一项：去重
+        });
+        this.length = 0;把数组清空
+        for( var k in obj){//循环对象的每一项
+            this.push(obj[k])//把数组的值当做key存进obj
+        }*/
+        /*
+        第二种去重
+        let arr = [...new Set(this)]//去重
+            this.length = 0;//数组长度为0
+            arr.forEach(item =>this.push(item)) //再重新放进数组      
+        */
+
+        /*
+        第三种去重
+        var obj = {};
+        for(var i = 0; i < this.length ; i++){
+            if(obj.hasOwnProperty(this[i])){//如果对象中有数组的这一项
+                this.splice(i,1);//删除这儿一项
+                i--;//数组长度减一
+            }else{
+                obj[this[i]] = this[i]//否则当对象的每一项和数组的项相等了 就赋值给对象
+            }
+        }
+        ary.unique();
+        */
+
+    // }
+    Array.prototype.myPop = function(){
+        // this 都是当前类的实例；
+        let temp = this[this.length-1]
+        this.length--;
+        return temp
+    }
+    var ary = [1,5,2,3,1,5,6,2,2,1,1,5,4,5,1]
+    ary.myPop();//ary.pop();
+    console.log(ary);
+    
+
+    
+    </script>
+</body>
+</html>

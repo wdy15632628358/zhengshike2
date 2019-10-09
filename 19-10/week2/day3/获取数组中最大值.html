@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>获取最大值</title>
+</head>
+<body>
+    <script>
+    /**/
+    /*var ary = [2,5,1,6,3,7,4,8,9];
+    Math.max(...ary);
+    console.log(Math.max(...ary)); 
+
+    Math.max.apply(Math,ary);//利用了 apply 可以吧集合散乱的传给前边的函数
+    console.log(Math.max.apply(Math,ary));
+
+    ary.sort((a,b)=>b-a)[0];
+    console.log(ary);
+    console.log(ary.sort((a,b)=>b-a)[0]);*/
+
+
+/*
+字符串排序
+var str = 'ertyuiodfghjkl';
+var arr = str.split('');
+console.log(arr);
+arr.sort((a,b)=>{
+    return a.localeCompare(b)
+})
+console.log(arr.join(''))*/
+
+
+ var ary =[{
+     name:'小红',
+     age:10
+ },
+ {
+     name:'小花',
+     age:11
+ },{
+     name:'小明',
+     age:12
+ },{
+     name:'小李',
+     age:13
+ },
+ ]
+ ary.sort((a,b)=>{
+    return a.name.localeCompare(b.name);//最后*-1：就是倒序
+})
+console.log(ary)
+    </script>
+</body>
+</html>

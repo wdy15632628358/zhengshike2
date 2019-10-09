@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>捕获身份证号</title>
+</head>
+
+<body>
+    <input type="text" placeholder="身份证号" id="inp">
+    <button id="btn">解析</button>
+    <h2 id="box"></h2>
+    <script>
+        const inp = document.getElementById('inp');
+        const btn = document.getElementById('btn');
+
+        btn.onclick = function () {
+            var str = inp.value;
+            var reg = /^\d{6}(\d{4})(\d{2})(\d{2})\d{2}(\d)(\d|x)$/;
+            let res = reg.exec(str);
+            if (res) {
+                //res的第一项是大正则捕获的内容，第二项是第一个小正则 年
+                box.innerHTML = `这个人的出生年月日是${res[1]}年${res[2]}月${res[3]}日 性别是${res[4] % 2 ? '男' : '女'}`;
+            } else {
+                alert('身份证不合法');
+            }
+        }
+
+        /*-------------------------------------------------------------------------*/
+
+        Object.prototype.getType = function () {
+            /*1. let str = this.constructor.toString();//调取到基类上的tostring方法'[object String]'*/
+            /*1. let str = Object.prototype.toString.call(this);*///调取到基类上的tostring方法'[object String]'*/
+            let str = ({}).toString.call(this);//调取到基类上的tostring方法'[object String]'*/
+            let reg = /[a-z]+/ig;//截取字符串
+            /*2. let reg = / (\w+)/;//截取字符串*/
+            /*2. str = str.slice(9, str.indexOf('('));//截取字符串
+            return str.toLocaleLowerCase();//首字母小写*/
+            reg.test(str);
+            return reg.exec(str)[0].toLocaleLowerCase();
+        }
+        console.log(''.getType());
+        console.log([].getType());
+
+        /*-------------------------------------------------------------------------*/
+        //封装一个execAll：直接把东西都拿到
+        RegExp.prototype.execAll = function (str) {
+            //如果么有加全局的g就会死循环 怎么解决？ *使用global判断一下 默认值true
+            let _this = this;
+            if (!_this.global) {
+                /*_this = eval(_this + 'g')*/
+                let s = /^\/(.+)\/$/.exec(_this + '')[1];
+                _this = new RegExp(s, 'g');
+            }
+            let res = _this.exec(str);
+            let ary = [];
+            while (res) {
+                ary.push(res);
+                res = _this.exec(str)
+            }
+            return ary;
+        }
+        var str = '珠峰2019培训2020培训珠峰11';
+        var reg = /\d+/; //2019 2020 null
+        console.log(reg.execAll(str));
+
+
+
+    </script>
+</body>
+
+</html>

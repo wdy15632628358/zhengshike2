@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>类数组转数组</title>
+</head>
+
+<body>
+    <script>
+        /*函数三角色：
+        普通函数：
+        构造函数：
+        普通对象：
+        */
+        //类数组转维数组的方法：
+        function fn() {
+            //普通数组__proto__ Arrar.prttotype
+            /*Arrar.from(arguments);*/
+            /*[...arguments];*/
+            [].slice.call(arguments, 0);//slice[0]//调用到数组的slice方法 给arguments使用
+           /* var res = [].concat.call(arguments,0);不能用 ，合成一个数组了
+            console.log(res);//(2) [Arguments(5), 0]*/
+            /*
+            arguments.__proto__ = Array.prototype;这个方法改变原型方法 不推荐
+            console.log(arguments.slice());*/
+
+
+        }
+        fn(1, 2, 3, 4, 5)
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

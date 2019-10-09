@@ -1,0 +1,396 @@
+建议大家每一道题都要画图（尤其是复杂一些的题目），画图过程能让我们把基础知识掌握的更加扎实，而且更加有效的算出正确的答案
+
+先自己计算，都完成后在开始测试答案，千万不要直接的输出看答案，这样就没有意义了
+
+一、选择题
+1、
+
+console.log(a); 
+var a=12; 
+function fn(){
+    console.log(a); 
+    var a=13;   
+}
+fn();   
+console.log(a);
+
+/*
+ A、undefined  12 13             
+ *B、undefined undefined 12   
+ C、undefined undefined 13         
+ D、有程序报错
+*/
+2、
+
+console.log(a); 
+var a=12;
+function fn(){
+    console.log(a);
+    a=13;
+}
+fn();
+console.log(a);
+
+/*
+ *A、undefined  12 13             
+ B、undefined undefined 12   
+ C、undefined undefined 13         
+ D、有程序报错
+*/
+3、
+
+console.log(a);
+a=12;
+function fn(){
+    console.log(a);
+    a=13;   
+}
+fn();
+console.log(a);
+
+/*
+ A、undefined  12 13             
+ B、undefined undefined 12   
+ C、undefined undefined 13         
+ *D、有程序报错
+*/
+4、
+
+var foo=1; 
+function bar(){
+    if(!foo){
+        var foo=10; 
+    }
+    console.log(foo); 
+}
+bar();
+
+/*
+ A、1     
+ *B、10     
+ C、undefined    
+ D、报错
+*/
+5、无需画图
+
+var n=0; 
+function a(){
+    var n=10; 
+    function b(){
+        n++; 
+        console.log(n); 
+    }
+    b();
+    return b; 
+}
+var c=a();
+c(); 
+console.log(n);
+
+
+/*
+ A、1 1 1   
+ B、11 11 0  
+ *C、11 12 0  
+ D、11 12 12
+*/
+6、
+
+var a=10,b=11,c=12;
+function test(a){//形参a是私有的
+     a=1;//私有的改了
+     var b=2;
+     c=3;
+}
+test(10);
+console.log(a);  
+console.log(b);   
+console.log(c);
+
+/*
+ A、1 11 3   
+ B、10 11 12  
+ C、1 2 3   
+ *D、10 11 3
+*/
+7、
+
+if(!("a" in window)){
+   var a=1;
+}
+console.log(a);
+
+/*
+ A、1   
+ *B、undefined   
+ C、报错   
+ D、以上答案都不对
+*/
+8、
+
+var a=4;
+function b(x,y,a) {  //都是私有  
+     console.log(a); //3
+     arguments[2]=10;        
+     console.log(a); //10
+}
+a=b(1,2,3);//b的返回结果赋值给a，b的没有return返回结果是undefined   
+console.log(a); 
+
+/*
+ A、3  3  4   
+ B、3  10  4   
+ C、3  10  10   
+ *D、3  10  undefined
+*/
+9、
+
+var foo='hello'; 
+(function(foo){//私有变量
+   console.log(foo);
+   var foo=foo||'world';//&& 就是world了
+   console.log(foo);
+})(foo);
+console.log(foo);
+
+/*
+ *A、hello hello hello   
+ B、undefined world  hello   
+ C、hello world world   
+ D、以上答案都不正确
+*/
+10、需画图
+
+var a=9; 
+function fn(){ 
+    a=0;       
+    return function(b){ 
+        return b+a++; 
+    }    
+}
+var f=fn();
+console.log(f(5));//5
+console.log(fn()(5));//5
+console.log(f(5));//6
+console.log(a);//2
+
+/*
+ A、6 6 7 2   
+ B、5 6 7 3   
+ C、5 5 6 3   
+ *D、以上答案都不正确 
+*/
+二、问答题（需要画图）
+1、
+
+var ary=[1,2,3,4];
+function fn(ary){
+    ary[0]=0;    
+    ary=[0];    
+    ary[0]=100;    
+    return ary; 
+}
+var res=fn(ary);    
+console.log(ary);  //[0,2,3,4]  
+console.log(res);//[100]
+2、
+
+function fn(i) {
+    return function (n) {
+        console.log(n + (i++));
+    }
+}
+var f = fn(10);
+f(20);//30
+fn(20)(40);//60
+fn(30)(50);80
+f(30);41
+3、
+
+var i = 10;
+function fn() {
+    return function (n) {
+        console.log(n + (++i));
+    }
+}
+var f = fn();
+f(20);//31
+fn()(20);//32
+fn()(30);//43
+f(30);//44
+4、无需画图
+
+var test = (function(i){//i=2
+    return function(){
+        alert(i*=2);
+    }
+})(2);//实参
+test(5);//里边函数没有形参，付了一个实参没有用 就执行一次 4
+5、
+
+var a=1;
+var obj ={
+   "name":"tom"
+}
+function fn(){
+   var a2 = a;
+   obj2 = obj;
+   a2 =a;
+   obj2.name =”jack”;
+}
+fn();
+console.log(a);//1
+console.log(obj);//jack
+6、无需画图
+
+var a = 1;
+function fn(a){//a=1私有 提升加定义a=f
+    console.log(a)
+    var a = 2;
+    console.log(a);//2
+    function a(){}//变量提升加定义a=f
+    console.log(a);//2
+}
+fn(a)
+
+console.log(f);//3//第一次变量提升加定义的只有1和3，3覆盖了1
+function f(){1};//第二次 var了一个f,已经声明过了不用再声明，但是把3的值改为了2
+console.log(f);//3
+var f =function(){2}
+console.log(f);//2
+function f(){3};
+console.log(f);//2
+
+7、
+
+var a=0,
+    b=0;
+function A(a){
+    A=function(b){
+        alert(a+b++);
+    };
+    alert(a++);
+}
+A(1);//1
+A(2);//4
+8、this相关
+
+   var fullName='language';
+   var obj={
+    fullName:'javascript',
+    prop:{
+        getFullName:function(){
+            return this.fullName;
+        }
+    }
+   };
+   console.log(obj.prop.getFullName());//undefined
+   var test=obj.prop.getFullName;//language
+   console.log(test());
+
+   var name='window';
+   var Tom={
+    name:"Tom",
+    show:function(){
+        console.log(this.name);
+    },
+    wait:function(){
+        var fun=this.show;
+        fun();
+    }
+   };
+   Tom.wait();//window
+
+
+   (function(){
+       var val =1;//2
+       var json ={
+             val:10,//10
+             dbl:function(){
+               val*=2;
+             }
+       };
+       json.dbl();
+       alert(json.val+val);//10+2
+   })();
+
+
+   var foo = {
+     bar: function () {
+       console.log(this);
+     }
+   };
+   foo.bar(); 
+   (foo.bar)(); 
+三：附加思考题（面试题）
+1、以下代码的功能是要实现为5个input按钮循环绑定click点击事件，绑定完成后点击1、2、3、4、5五个按钮分别会alert输出0、1、2、3、4五个字符。（腾讯）
+
+请问如下代码是否能实现？
+1.
+var btns = document.querySelectorAll('button');
+[...btns].forEach((item,index)=>{//可以直接用btns,因为是document.querySelectorAll获取的，他下面有forEach方法
+        item.onclick = function(){
+            alert(`我是第${index+1}个button`)
+        }
+    })
+
+2.var btns = document.querySelectorAll('button');
+    // 1.for(var i = 0; i < btns.length ; i++){
+    //     btns[i].onclick = (function (n) {
+    //         return function () {
+    //             alert(`我是第${n+1}个button`)
+    //         }
+    //     })(i)
+    // }
+
+3.var btns = document.querySelectorAll('button'); 
+        functinon f(i){
+    	//  btns[i].onclick = function (){
+    	//  	alert(i)
+    	//  }
+     //   }
+    	// for(var i = 0; i < btns.length ; i++){
+    	// 	f(i)
+    	// }
+
+
+4.直接使用let定义变量
+var btns = document.querySelectorAll('button'); 
+ for(let i = 0; i < btns.length ; i++){
+    //     btns[i].onclick = function () {
+    //         alert(`我是第${i+1}个button`)
+    //     }
+    // }
+如果不能实现那么现在的效果是什么样的？
+
+应该做怎样的修改才能达到我们想要的效果，并说明原理？
+
+<div id="btnBox">
+    <input type="button" value="button_1" />
+    <input type="button" value="button_2" />
+    <input type="button" value="button_3" />
+    <input type="button" value="button_4" />
+    <input type="button" value="button_5" />
+</div>
+
+<script type="text/javascript">
+    var btnBox=document.getElementById('btnBox'),
+        inputs=btnBox.getElementsByTagName('input');
+    var l=inputs.length;
+    for(var i=0;i<l;i++){
+        inputs[i].onclick=function(){
+            alert(i);
+        }
+    }
+</script>
+2、 怎么规避多人开发函数重名的问题？（百度搜索）
+闭包
+
+3、你理解的闭包作用是什么，优缺点？（乐视）
+
+1.保护变量不受外界环境污染，2.存储值
+缺点：滥用会造成内存泄漏（）
+
+4、简述let和var的区别
+变量提升 增加属性 可以重复声明
+块作用域 不增加属性 声明之前不能调用 不能重复声明

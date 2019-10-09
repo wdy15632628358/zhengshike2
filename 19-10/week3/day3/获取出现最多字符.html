@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>获取出现最多字符</title>
+</head>
+
+<body>
+    <script>
+        /*
+        //获取字符串中出现最多的字符
+    
+         
+        */
+        //转换大写小 实现驼峰
+        var str = 'get-element-by-tag-name';
+        var res = str.replace(/-\w/g, function (a) {
+            return a.slice(1).toUpperCase();
+            console.log()
+        })
+        console.log(res);//getElementByTagName
+
+
+        //获取字符串中出现最多的字符
+
+        var str = 'asdfghasdfgfgersdfsdfgfdsdddsd';
+        function getMore(str) {
+            let obj = {}
+            for (let i = 0; i < str.length; i++) {
+                //把字符串的每一项当做属性名存起来
+                //存贮之前 先看 对象中有没有这个属性，没有就给obj；增加一个对应的属性， 属性值是；1
+                // 有的话 就在他现在值得基础上 加1
+                let t = str[i];
+                if (obj.hasOwnProperty(t)) {
+                    obj[t] += 1;
+                } else {
+                    obj[t] = 1;
+                }
+            }
+            /*console.log(Object.values(obj))
+            console.log(Object.keys(obj))
+            var val = Object.values(obj);
+            var key = Object.keys(obj);
+            var m = Math.max(...val);
+            var k = key[val.indexOf(m)];*/
+            
+            let key = '', num = 0;
+            for (var k in obj) {
+                if (obj[k] > num) {
+                    key = k;
+                    num = obj[k];
+                }
+            }
+            return {
+                k,//key
+                m//num
+            }
+        }
+        console.log(getMore(str));//{key: "d", num: 9} //{n: "d", m: 9}
+
+
+        /*------------------------------------------------------------------------*/
+
+        var reg = /(\d+)\1/;//\1代表第一个小分组匹配的内容 \2代表第二个小分组匹配的内容
+        var str = '123123';
+        console.log(reg.exec(str));//["123123", "123",
+
+        var reg = /([a-z]+)(\d+)\1\2/;
+        var str = 'zf2019zf2019';
+        console.log(reg.exec(str));// ["zf2019zf2019", "zf", "2019",
+
+
+        var str = 'asdfghasdfgfgersdfsdfgfdsdddsd';
+        function getMore2(str) {
+            str = str.split('').sort().join('');//字符串转数组 str.split('') //字符串排序
+            //     console.log(str);//先获取想转为数组的字符串aadddddddddeffffffgggghrssssss
+            //     var arr = str.match(/(\w)\1*/g) //获取相同字符组成的数组
+            //     console.log(arr);// ["aa", "ddddddddd", "e", "ffffff", "gggg", "h", "r", "ssssss"]
+            //     arr.sort((a,b)=>{//数组排序 第一项就是 字符串最长的
+            //         return b.length - a.length
+            //     }) 
+
+            //     return {
+            //         key:arr[0][0],//返回第一项
+            //         num:arr[0].length//返回第一项的length
+            //     } 
+            let key = '', num = 0;
+            str.replace(/(\w)\1*/g, function ($0, $1) {
+                if ($0.length > num) {
+                    num = $0.length;
+                    key = $1;
+                }
+            })
+            return {
+                key,
+                num
+            }
+        }
+        console.log(getMore2(str));
+
+
+
+    </script>
+</body>
+
+</html>

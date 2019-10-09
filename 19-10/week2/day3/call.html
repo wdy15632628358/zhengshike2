@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>改变this</title>
+</head>
+
+<body>
+
+
+    <script>
+        /*
+        function fn(){
+            console.log(arguments);
+            console.log(this);
+            console.log('-----------------------------------------')
+        }
+        var obj = {
+            a:12,
+            b:13,
+            f:fn
+        }
+        fn(1,2,3);
+        obj.f(6,6,6);
+        fn.call(obj,5,5,5)
+         //可以让函数执行，（1）
+         //并且可以改变函数执行时内部的this指向（2）
+         //This指向了call的第一个实参，call后边的所有参数，都被作为了实参传给了前边的函数（3）
+        // Object.prototype.toString.call()//将obj的指向改成了你传的参数的指向
+        //({}).toString.call('');
+        //obj.toString();//this 是 obj
+        */
+        /*
+         赋值数组：Array.from(arguments)//这个from放在Array类上，不在基类上
+         call 方法实在FUNCTION类的原型上
+        
+        */
+        //实现一个mycall的方法实现call的方法
+        function fn() {
+            console.log(arguments);
+            console.log(this);
+            console.log('-----------------------------------------')
+        }
+        var obj = {
+            a: 12,
+            b: 13,
+            f: fn
+        }
+        Function.prototype.myCall = function myCall(context, ...arg) {//剩余运算符
+            //this 就是 fn
+            //this(...ary)//扩展运算符
+            //让fn(this).fn执行并且让函数中的this指向是context
+            //context.qqq() qqq执行时 里边的this是context
+            context = context || window;//不传参this就是window
+            let a = Symbol();//symbol产生一个唯一不重复的值，以防冲突
+            context[a] = this;//context.qqq --->this
+            let res = context[a](...arg);//让 fn 执行了并拿到传的参数
+            delete context[a];//删除增加的qqq属性
+            return res;//返回获取的参数结果
+        }
+        fn.myCall(obj, 6, 6, 6);
+
+
+    </script>
+</body>
+
+</html>

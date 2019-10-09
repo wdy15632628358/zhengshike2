@@ -1,0 +1,153 @@
+var x = 1,
+    y = 2,
+    z = 3;//2
+~function fn(x,y=10) {//私有 x=1,y=10
+    console.log(x, y, z);//1 10 3
+    y++;//11
+    x++;//2
+    z--;//2
+    console.log(x, y, z);//2 11 2
+}(x);
+console.log(x, y, z);//1 2 2
+ 
+/*===第2题===*/
+console.log(x);//undefined
+var x = [0],y = [10];
+~function fn(x,y) {//私有：x = [0],y=[10]
+    console.log(x);//0 10
+    x.push(1);//[0,1]
+    y = x.slice(0);//[0,1]返回一个新数组,复制数组给Y，给了Y一个新地址，原地                            //址没改变
+    y.push(20);//[0,1,20]
+    console.log(y);
+}(x,y);
+console.log(x,y);//[0，1] [10]
+
+
+/*===第3题===*/
+var x = 0,//10\20
+    y = 1;//20
+x = (function (x) {
+    console.log(x,y);//没有形参x为undefined（0.1）
+    x = x || 10;//x=10
+    y = y && 20;//y=20
+    console.log(x,y);//(10,20)
+    return y//y=20赋值给x
+})();
+console.log(x,y);(20,20)
+
+
+/*===第4题===*/
+var x = 1;//7
+var obj = {
+    x: 2,//7
+    fn: function (x) {//x=4私有
+        this.x += ++x;//this.x =2+5=7
+        console.log(x,this.x);//(5,7)
+    }
+};
+var fn = obj.fn;
+obj.fn(4);
+fn(5);//x=5私有 this.x = 1+6=7 (6,7)
+console.log(x, obj.x);(7,7)
+
+
+
+/*===第5题===*/
+var x = 1;
+~ function (x) {//x=1私有
+    console.log(x);//形参的x=function x() {}
+    var x = 2;//继续赋值
+    function x() {}
+        console.log(x);//2
+    
+}(x);
+console.log(x);//全局x=1
+
+
+/*===第6题===*/
+var x = 10,//11//12//13
+    y = 20,
+    z = 30;
+function fn(y) {//y=20私有
+    y++;//21
+    return function (z) {
+        x++;
+        console.log(z + x + y);
+    }
+}
+var f = fn(y);
+f(40);//z=40,私有，x上级 (40+11+21)//72
+fn()(50);//y没传值undefined,z=50,x上级 (50+12+NaN):NaN
+f(60);//z=60 x上级 (60+13+21):94
+console.log(x,y,z);(13,20,30)
+
+
+/*===第7题===*/
+var x=0,
+    y=1;
+function fn(y){//y=4私有
+    y+=2;//6
+    fn=function(x){
+        x+=3;
+        console.log(x+y);//(8+6)
+    };
+    console.log(x+y);//6
+}
+fn(4);
+fn(5);//x=5私有 8 (8+6):14
+console.log(x+y);//(0+1):1
+
+
+/*===第8题===*/
+var x = 1,//4
+    y = 2;//6//24
+function fn(x) {//x=3私有
+    this.x *= (++x);//1*4
+    fn = function (y) {//y=4私有
+        this.y *= (--y);//6
+        console.log(x + y);//4+3:7
+    }
+    console.log(x + y);//(4+2):6
+    return fn;
+}
+fn(3)(4);
+fn(5);//y=5私有 4*6=24 (5+3):8
+console.log(x + y);//4+24:28
+
+
+/*===第9题===*/
+var x = 3,//4//8//20
+    obj = {x: 2};//5//11
+obj.fn = (function () {
+    x++;
+    this.x += x;
+    return function (y) {
+        y+=x;//
+        this.x += y;
+        console.log(x);
+    }
+})();
+var fn = obj.fn;
+obj.fn(1);//y=1私有3 this.x+=y=2+3=5 console.log(x):8
+fn(4); //y=4 私有 12  this.x+=y=12+8=20  console.log(x):20
+console.log(x,obj.x);//20 ,11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

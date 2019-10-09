@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>match</title>
+</head>
+
+<body>
+    <script>
+        var reg = /([a-z]+)(\d+)/;
+        var str = 'zf2019zf2020';
+        console.log(str.match(reg))//["2019", index: 2, input: "zf2019zf2020", groups: undefined]
+        console.log(reg.exec(str))//["2019", index: 2, input: "zf2019zf2020", groups: undefined]
+
+
+        var reg = /([a-z]+)(\d+)/g;
+        var str = 'zf2019zf2020';
+        console.log(str.match(reg))//["zf2019", "zf2020"]
+        console.log(reg.exec(str))// ["zf2019", "zf", "2019",
+        //match和exec的区别：不加全局修饰符g的时候，两者功能一样
+        //加上修饰符g后，match可以吧所有大正则匹配的内容都捕获到，但是会丢掉小分组的内容
+
+        var str = '55043219980818243X'
+        var reg = /^\d{6}(\d{4})(\d{2})(\d{2})\d{2}(\d)[\dX]$/;
+        let res = str.match(reg);
+        console.log(res)//"55043219980818243X", "1998", "08", "18", "3",
+
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13#111';//有hash的时候 #后面默认是hash
+        function getParam(url) {
+            var reg = /([^?=&]+)=([^?=&#]+)/g; //以=号分割，获取想要的字符 
+            var obj = {}
+            url.match(reg).forEach(item => {   //match分割直接是大正则内容["lx=1", "from=wx", "b=12", "c=13"]           
+                let a = item.split('=');//需要再以=切割一下变成：["lx", "1"]
+                obj[a[0]] = a[1]//直接拿索引0和索引1就可以了
+            })
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str));//{lx: "1", from: "wx", b: "12", c: "13" , hash: "111"}
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

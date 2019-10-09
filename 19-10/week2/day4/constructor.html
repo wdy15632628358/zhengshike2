@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>constructor</title>
+</head>
+
+<body>
+    <script>/**/
+        function getType(temp) {
+
+            var str = temp.constructor.toString();//"function Function() { [native code] }"
+            return str.slice(9, str.indexOf('(')).toLowerCase();
+        }
+        getType('');
+        getType([]);
+
+
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        Person.prototype.eat = function () {
+            console.log('吃火锅')
+        }
+        var p = new Person('小红',10)
+        Person.prototype = {//重构原型
+            constructor:Person,//缺点：重构的时候少了一个constructor属性，要手动添加上
+            eat() {
+                console.log('吃水果')
+            },
+            play() {
+                console.log('玩游戏')
+            }
+        }
+        var p1 = new Person('小明',20);
+        p1.eat();
+        p.eat();
+
+    </script>
+</body>
+
+</html>

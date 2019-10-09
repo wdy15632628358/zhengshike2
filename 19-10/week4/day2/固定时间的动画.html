@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>固定时间</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid salmon;
+            text-align: center;
+            line-height: 200px;
+            user-select: none;
+            /*不能选中文字*/
+            position: relative;
+            /* left: 0;
+            transition: left 1s cubic-bezier(0.075, 0.82, 0.165, 1); */
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+    <div id="box">珠峰培训</div>
+</body>
+
+</html>
+<script>
+    //让盒子一秒钟 从左移动到右边
+    let box = document.getElementById('box')
+    let btn = document.getElementById('btn')
+    let winW = document.documentElement.clientWidth || document.body.clientWidth;
+    let boxW = box.offsetWidth;
+    let maxL = winW - boxW;//移动的距离
+    
+     btn.onclick = function () {
+        let l = 0;
+        let duration = 1000;//移动的时间
+        let speet = maxL / duration;//要移动的速度
+        let timer = setInterval(() => {
+            l += 20 * speet//一毫秒移动speet，20毫秒就是20speet
+            if (l >= maxL) {
+                l = maxL;
+                clearInterval(timer);
+            }
+            box.style.left = l + 'px';
+        }, 20)
+     }
+
+</script>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>add</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+
+function currying(fn, length) {//外层的length就是3
+        length = length || fn.length;//传参了 就是传递的参数 没传参数就是形参的个数
+        return function (...arg) {
+            if (arg.length >= length) {
+                return fn.apply(this, arg)
+            } else {
+                return currying(fn.bind(this, ...arg),length-arg.length)
+            }
+        }
+
+    }
+    f3 = function (a, b, c) {
+        return a + b + c
+    }
+    let add = currying(f3)
+    add(1)(2)(3)//6
+    add(1, 2)(3)//6
+    add(1)(2, 3)//6
+    add(1, 2, 3)//6
+</script>

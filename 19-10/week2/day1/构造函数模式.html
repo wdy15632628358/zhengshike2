@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <title>构造函数模式</title>
+</head>
+<body>
+    
+
+    <script>
+    
+    function Person(name,age,sex){
+            this.name = name;
+            this.age = age;
+            this.sex = sex;
+            this.eat = function(){}
+            this.play = function(){}
+            //return
+        }
+    var per22 = new Person('zf',100,10);//Per22是Person的实例 Person {name: "zf", age: 100, sex: 10, eat: ƒ, play: ƒ}
+    //new执行函数的时候，函数内部的this 都是指向一个堆内存，函数执行完成后，又把this反出去。
+    //若写的是返回值，但是返会的是一个值类型，那么默认返回的仍然是this。
+    //若返回值是一个引用类型，那么返回值就默认是这个引用数据类型了。
+    console.log(per22);
+
+    
+    
+    </script>
+</body>
+</html>

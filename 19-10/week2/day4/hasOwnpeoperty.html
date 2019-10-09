@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>hasOwnProperty</title>
+</head>
+
+<body>
+    <script>
+        /*
+        in  判断某个属性是否属于某个对象； 某个对象，某个属性
+        */
+        var obj = {
+            a: undefined,
+            b: 12
+        }
+        // obj.a // undefined
+        //obj.c //undefined
+
+
+        'toString' in obj //true
+
+        //是否是共有属性
+        Object.prototype.hasPubproperty = function (key) {
+            if (key in this && !this.hasOwnProperty(key)) return true;
+            //如果key值不是传进来的值并且obj里面也没有这个私有的key属性
+            return false;
+
+        }
+        ''.hasOwnProperty('length')//true
+
+        /* -----------------------------------------------------------------*/
+        
+        //实现加 减  算法
+        Number.prototype.plus = function (a) {
+            return this + a
+        }
+        Number.prototype.minus = function (a) {
+            return this - a
+        }
+        var n = 10;
+        let m = n.plus(5).minus(3).plus(10)
+        console.log(m)
+
+ /* -----------------------------------------------------------------*/
+
+//for in 循环数组缺点：会把所有能调用到的自己添加的属性  全部获取到
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

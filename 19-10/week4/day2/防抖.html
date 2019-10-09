@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>防抖</title>
+    <style>
+        #box {
+            height: 2000px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+
+</body>
+
+</html>
+<script>
+    //触发高频事件后，n秒内函数只会在最后函数执行时触发一次，如果n秒内高频事件再次被触发，则重新计算时间
+    //防抖：在连续触发某个函数时，只在最后时候让对应的函数执行。
+    // var timer = null;
+    // window.onscroll = function () {
+    //     clearInterval(timer);
+    //     timer = setTimeout(() => {
+    //         console.log(666)
+    //     }, 1000)
+    // }
+
+    function debounce(fn, wait) {//debounce处理过的函数都是防抖函数
+        wait = wait || 1000;
+        var timer = null;// 创建一个标记用来存放定时器的返回值
+        return function () {
+            clearInterval(timer);// 每当用户输入的时候把前一个 setTimeout clear 掉
+            timer = setTimeout(() => {// 然后又创建一个新的 setTimeout, 这样就能保证输入字符后的 interval 间隔内如果还有字符输入的话，就不会执行 fn 函数
+                //箭头函数不用管变量 要是普通函数就要设置一个变量 var context = this
+                fn.apply(this, arguments);//保证this的指向 和 参数的传递
+            }, wait)
+        }
+    }
+    let fn = function () { console.log(this) }
+    let f = debounce(fn,1000);//在这里传值
+    window.onscroll = f;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

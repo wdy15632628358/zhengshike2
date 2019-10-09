@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>apply</title>
+</head>
+
+<body>
+
+
+    <script>
+        /*
+        apply:功能类似于call
+        */
+        /*function fn(){
+            console.log([...arguments])
+            console.log(this)
+            console.log('---------------------------------------------------')
+        }
+        var obj ={
+            a:1,
+            b:2
+        }
+        fn.call(obj,3,4)
+        fn.apply(obj,[3,4])*/
+        //两者的不同
+        //第二个参数是数组或者类数组的集合，虽然是以一个集合的形式传过去的，但是fn接收时还是散乱的接收的
+        //可以只传一个参数
+
+        /*
+        实现一个myApply方法；功能等同于apply；
+        */
+         function fn() {
+             console.log([...arguments])
+             console.log(this)
+             console.log('---------------------------------------------------')
+         }
+         var obj = {
+             a: 1,
+             b: 2
+         }
+     Function.prototype.myApply = function myApply(context, arg) {//剩余运算符
+                 //this 就是 fn
+                 //this(...ary)//扩展运算符
+                 //让fn(this).fn执行并且让函数中的this指向是context
+                 //context.qqq() qqq执行时 里边的this是context
+                 arg = arg || [];//不传就是空数组
+                 context = context || window;//不传参this就是window
+                 let a = Symbol();//symbol产生一个唯一不重复的值，以防冲突
+                 context[a] = this;//context.qqq --->this
+                 let res = context[a](...arg);//让 fn 执行了并拿到传的参数
+                 delete context[a];//删除增加的qqq属性
+                 return res;//返回获取的参数结果
+             }
+             fn.myApply(obj, [3,4]); 
+
+
+             
+        function Person(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        var p = new Person('珠峰', 11);
+
+      /*  function myNew(...arg) {
+            //Person,name,age
+            var obj = {};
+            var Constructor = arg.shift();// 第一步 删除了 Person； 第二步 把Person 赋给了 变量
+            obj.__proto__ = Constructor.prototype;
+            var res = Constructor.call(obj, ...arg);
+            return typeof res === 'object' ? res : obj;
+        }*/
+
+
+        function myNew(...arg) {
+            // Person,name,age
+            var obj = {};
+            var Constructor = arg.shift();
+            obj.__proto__ = Constructor.prototype;
+            let res = Constructor.apply(obj, arg);
+            return typeof res === 'object' ? res : obj;
+        }
+
+        var p2 = myNew(Person, '珠峰', 11);
+        console.log(p);
+        console.log(p2);
+    </script>
+</body>
+
+</html>

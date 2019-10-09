@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>replace</title>
+</head>
+
+<body>
+    <input type="text" id="inp">输入：
+    <script>
+        /*
+        replace：字符串的替换
+            str.replace(reg,function(){}):
+            //replace的回调函数的 实参结果 跟 match和exec 捕获的类似
+            //返回的字符串 是由匹配到的内容 被return值 替换之后的新字符串
+            //回调函数的执行次数  跟  正则匹配到的次数一样
+        */
+        /* var str = '2019-02-03';
+         var ree = str.replace('-', '/').replace('-', '/');//2019/02/03
+         console.log(ree)
+         var res = str.replace(/-/g, '/');//2019/02/03
+         console.log(res)
+ 
+         var str = '   sfsfsfs   sfsdfsf   ';
+         var res = str.replace(/^ +| +$/g, '');//以多个空格开头或者以多个空格结尾的,都替换成空
+         console.log(res)*/
+
+        /*-----------------------------------------------------------------------*/
+        /*inp.oninput = function () {
+            console.log(this)
+            let str = this.value;
+            //  var res = str.replace(/^\D+/g, '');  // 开头除了0-9数字不能输入别的
+            var res = str.replace(/^[\d ]+/g, ''); //开头除了数字 空格都可以输入
+            this.value = res;
+        }*/
+        /*-----------------------------------------------------------------------*/
+
+
+
+        /* 
+        //第一种：大写转小写 ，小写转大写
+        var str = 'sfsfFSDFAA';
+        var str2 = '';
+        for (let i = 0; i < str.length; i++) {
+            let a = str[i];
+            if (a.toLowerCase() == a) {
+                str2 += a.toUpperCase();
+            } else {
+                str2 += a.toLowerCase();
+            }
+        }
+        console.log(str, str2);//sfsfFSDFAA SFSFfsdfaa*/
+
+
+        /*
+        //第二种：大写转小写 ，小写转大写
+        var str = 'afaAAsfFASFF';
+        var reg = /[A-Za-z]/g;
+        var res = str.replace(reg, function ($1) {
+            if ($1.toLowerCase() == $1) {
+                return $1.toUpperCase();
+            } else {
+                return $1.toLowerCase();
+            }
+        //  return a.toLowerCase() == a ? a.toUpperCase() : a.toLowerCase();
+        })
+        console.log(res, 666);//AFAaaSFfasff 666*/
+
+        //第三种 ：大写转小写 ，小写转大写
+        var str = 'aqweAVsdDFEc';
+        var res = str.replace(/([a-z]*)([A-Z]*)/g, function ($0, $1, $2) {
+            return $1.toUpperCase() + $2.toLowerCase()
+        })
+        console.log(res, 1111);
+
+        /*-----------------------------------------------------------------*/
+
+        /*var str = 'zf2019zf2020';
+        var res = str.replace(/([a-z]+)(\d+)/g, function () {
+            // replace  的回调函数的实参结果 跟 match和exec获取的 类似
+            // 返回的字符串 是由匹配到的内容被return值 替换之后的新字符串
+            // 回调函数的执行次数跟 正则匹配到的次数一样
+            console.log(arguments)//"zf2020", "zf", "2020", 6,
+        })*/
+        /*-----------------------------------------------------------------*/
+
+        /*
+         var str = 'wer1223we3322262wewwe666'
+         var res = str.replace(/([a-z]+)(\d+)/g, '$1==$2');//$1、$2代表英文字母 和 数字
+         console.log(res);//wer==1223we==3322262wewwe==666*/
+
+        /*-----------------------------------------------------------------*/
+        //replace 实现1getParam();
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13#hash=111';
+        function getParam(url) {
+            var reg = /([^?=&]+)=([^?=&#]+)/g; //以=号分割，获取想要的字符 
+            let obj = {};
+            var res = str.replace(reg, function ($0, $1, $2) {//$0代表大正则内容 $1代表第一个分组 $2代表第二个分组
+                console.log($0, $1, $2);//lx=1 lx 1
+                obj[$1] = $2;
+            })
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str));//{lx: "1", from: "wx", b: "12", c: "13"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

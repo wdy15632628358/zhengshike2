@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>split</title>
+</head>
+<body>
+    <script>
+        /*使用字符串的split方法 再配合正则进行切割
+        好处：直接一步到位 ，不用再（以=号-号——号。。。）分布切割
+        */
+    var str = 'a-3_34+erefdde=ffsfefs?fsf'
+    var str2 = '1+2+3+4';
+    console.log(str2.split(/\d/));//(5) ["", "+", "+", "+", ""]
+    console.log(str.split(/[-|_|+|=|?]/));//["a", "3", "34", "erefdde", "ffsfefs", "fsf"]
+    console.log(str.split(/[-_+=?]/));//["a", "3", "34", "erefdde", "ffsfefs", "fsf"]
+    console.log(str.split(/[^a-zA-Z\d]/));//取非：["a", "3", "34", "erefdde", "ffsfefs", "fsf"]
+    </script>
+</body>
+</html>

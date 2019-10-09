@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登录 注册</title>
+    <style>
+
+
+
+    </style>
+
+</head>
+
+<body>
+    <div id="log">
+        <input type="text" placeholder="请输入用户名">
+        <input type="password" placeholder="请输入密码">
+        <button id="log_btn">登录</button>
+    </div>
+
+    <div id="reg">
+        <input type="text" placeholder="请输入用户名">
+        <input type="password" placeholder="请输入密码">
+        <button id="reg_btn">注册</button>
+    </div>
+
+    <a href='#' id='log_a'>登录</a>
+    <a href='#' id='reg_a'>注册</a>
+    <script>
+        /*
+               面向对象：以对象数据类型为导向的编程思想
+               类：Array    Function
+               实例：[]       f
+        */
+        log_a.onclick = function () {
+            log.style.display = 'block';
+            reg.style.display = 'none'
+        }
+        reg_a.onclick = function () {
+            log.style.display = 'none';
+            reg.style.display = 'block'
+        }
+        var logModel = (function () {//登录模块 
+            var box = document.getElementById('log');//获取元素
+            var name = box.getElementsByTagName('input')[0];
+            var psw = box.getElementsByTagName('input')[1];
+            var log_btn = document.getElementById('log_btn');
+            var bind = function () {
+                log_btn.onclick = function () {//点击事件，点击登录显示用户名和密码
+                    console.log(`登录信息是： ${name.value}---- ${psw.value}`)
+                }
+
+            }
+            return {
+                init() {//初始化
+                    bind();
+                    return name.value;
+                }
+            }
+
+        })()
+        logModel.init();//执行
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>match</title>
+</head>
+
+<body>
+    <SCript>
+        // match  str.match(reg) 正则有g只捕获大正则，没有g,跟exec结果一样
+        //exec    reg.exec(str)
+
+        var reg = /([a-z]+)(\d+)/g
+        var str = 'zf2019zf2020'
+        str.match(reg)
+        console.log(str.match(reg))//["zf2019", "zf2020"]:加上g只捕获大正则
+
+        var reg = /([a-z]+)(\d+)/g
+        var str = 'zf2019zf2020'
+        reg.exec(str)
+        console.log(reg.exec(str))//"zf2020", "zf", "2020"使用exec捕获的结果
+
+        var reg = /([a-z]+)(\d+)/
+        var str = 'zf2019zf2020'
+        str.match(reg)
+        console.log(str.match(reg))//(3) ["zf2019", "zf", "2019":不加g捕获的和exec结果一样
+
+
+      /*---------------------------------------------------------------*/
+      
+        //split(reg)//获取数字
+        var str = '2342sdf234234s_df?sw33&42sfsdf24=234';
+        console.log(str.match(/\d+/g));//["2342", "234234", "33", "42", "24", "234"]
+        console.log(str.split(/\D+/)); //["2342", "234234", "33", "42", "24", "234"]
+
+      /*---------------------------------------------------------------*/
+
+        //使用replace获取URL数据
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13#111';
+        function getParam(url) {
+            var reg = /([^=?&]+)=([^=?&#]+)/g;
+            var obj = {};
+            url.replace(reg, function (a, b, c) {//a代表大正则 lx=1 b代表第一个分组内容:1x c代表第二个分组内容:1
+                obj[b] = c;
+
+            })
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str))//{lx: "1", from: "wx", b: "12", c: "13", hash: "111"}
+
+        //使用match 获取URL的数据
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13#111';
+        function getParam(url) {
+            var reg = /([^=?&]+)=([^=?&#]+)/g;
+            var ary = url.match(reg);
+            console.log(ary); //["lx=1", "from=wx", "b=12", "c=13"]
+            let obj = {};
+            ary.forEach(item => {
+                let a = item.split('=');
+                obj[a[0]] = a[1];
+            });
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str))//{lx: "1", from: "wx", b: "12", c: "13", hash: "111"}
+     /*---------------------------------------------------------------*/
+        //去除首位空格url
+        var str = '  url    '
+        var reg = /^ + | +$/g;
+        str.split(reg, '');
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </SCript>
+</body>
+
+</html>

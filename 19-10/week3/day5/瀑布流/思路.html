@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>思路</title>
+</head>
+
+<body>
+    <script>
+        /*
+        1.获取数据：封装成一个函数，去实现获取数据的动作
+        2.渲染数据：把从后台获取到的数据展示到页面上，按照列展示的，循环后台给的数组，
+          然后把每一条数据拼接好，添加到长度最小的一列，这里封装了一个最小列的方法，
+          把元素集合转成数组，然后按照clientHeight 进行排序，由此找到最低那个li.
+        3.实现滚动加载更多数据，当长度最小的那个li的底部漏出时就加载新的数据，loadmore
+          为了，防止一次性请求多次，多了一个flag判断，只有当flag为false时，才去执行新数据请求加载
+          当请求开始时  flag设置为true 渲染成功，我们把flag再设置为false。
+        4.实现图片懒加载的操作，loadImg loadAll当图片还没有出现在可视窗口的时候不去加载图片，只有当图片漏出来一半时再去加载
+        5.预加载 ，当图片要在展示成真正的图片时 先用默认图展示，然后在利用js创建一个临时的图片。
+          让这个临时的图片去 请求远程 真实的图片， 当请求成功后再把真实图片地址赋给页面的那个img标签。 
+        6.fadeIn:实现图片的渐现，利用定时器对img进行opacity的累加操作 
+    
+        性能优化：每一个图表对应一个div，会有但bug，优化成 所有图标对应一个div 控制div中的内容
+    
+        */
+        function offset(ele) {
+            let t = ele.offsetTop,
+                l = ele.offsetLeft;
+            let temp = ele.offsetParent;
+            while (temp) {
+                l += temp.offsetLeft + temp.clientLeft;
+                t += temp.offsetTop + temp.clientTop;
+                temp = temp.offsetParent;
+            }
+            return {
+                l, t
+            }
+        }
+
+
+        /*---------------------------------*/
+        var a = [1];//a是引用数据类型
+        a.toString = function(){// a==1比较的时 默认调用tostring方法，把tostring的结果用number转一下，再去比较
+            return a[0]++
+        }
+        if (a == 1 && a == 2 && a == 3) {
+            console.log(1);
+        }
+
+    </script>
+</body>
+
+</html>

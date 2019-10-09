@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>instanceof</title>
+</head>
+
+<body>
+    <script>
+        /*
+        //xxx instanceof xxx2:xxx到基类的原型链上有没有xxx2
+        //所有的引用数据类型都是instanceof  Object  都是true
+        // 多有的值类型 instanceof 任意  都是   false
+        */
+        /*
+        网上第一种方法
+        function instance_of(L, R) {
+            //L 表示左表达式，R 表示右表达式
+            var O = R.prototype; // 取 R 的显示原型
+            L = L.__proto__; // 取 L 的隐式原型
+            while (true) {
+                if (L === null) return false;
+                if (O === L)
+                    // 这里重点：当 O 严格等于 L 时，返回 true
+                    return true;
+                L = L.__proto__;
+            }
+        }
+        */
+        //实现instanceOf方法
+        function myInstanceof(temp, classN) {
+            //temp 通过 __proto__ 向上查的时候
+            // 若有某次的 __proto__ === classN.prototype返回true
+            //当 某次的 __proto__  ===  null 这是返回 false。
+            //temp.__proto__      classN.prototype
+            var left = temp.__proto__;
+            var right = classN.prototype;
+            let str = typeof temp;
+            if (str !== 'object' && str !== 'function') return false;
+            /*if(left === right)return true;
+            while(!left === null){
+                return left === right;
+
+            } 
+             return false;*/
+            while (left) {
+                if (left === right) return true;
+                left = left.__proto__
+            }
+            return false;
+        }
+        [] instanceof Array;//true
+        [] instanceof Object;//true
+        [] instanceof Number;//false
+        1 instanceof Number;//false
+        myInstanceof([], Number);//false
+        myInstanceof([], Array);//true
+        myInstanceof([], Object);
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

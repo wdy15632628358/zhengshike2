@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>捕获</title>
+</head>
+
+<body>
+    <script>
+        /*
+        //正则捕获：exec 从字符串中获取满足正则的部分
+        //第一项是 大正则捕获的内容 ，第二项是小分组捕获的内容
+        */
+        //第一项是 大正则捕获的内容 ，第二项是小分组捕获的内容
+        // 第二项 就是 第一个小分组 ；第三项  就是 第二个小分组
+        //若字符串中么有 任何 符合正则的字符 则 获取的结果就是null
+
+        //正则的贪婪性：一次性会把所有满足正则的字符都获取到。2符合但是它把019也拿到了
+        //解决正则的贪婪性： ？可以解决
+
+        //捕获的懒惰性： 只捕获一次，不再捕获其他符合正则的字符（只捕获额2019，而没有捕获2020）
+        //解决正则的懒惰性：  g可以解决 加上g之后每一次捕获都会更新lastindex这个属性
+        //lastindex属性是控制的下一次开始匹配的起始索引
+        //test 和 exec 方法都会更新  lastindex属性
+
+        var reg = /\d+/g;
+        var str = '珠峰2019zf2020';
+        reg.exec(str)//2019
+        console.log(reg.exec(str));//2020
+
+
+        var reg = /\d+?/;
+        var str = '珠峰2019zf2020';
+        var res = reg.exec(str);
+        console.log(res)
+
+        var reg = /\d+/;
+        var str = '珠峰2019zf2020';
+        var res = reg.exec(str);
+        console.log(res)
+
+        var reg = /[a-z]+\d+/;
+        var str = '珠峰2019zf2020';
+        var res = reg.exec(str);
+        console.log(res)
+
+        var reg = /([a-z]+)(\d+)/;
+        var str = '珠峰2019zf2020';
+        var res = reg.exec(str);
+        console.log(res)
+
+        var reg = /^a/m;
+        var str = 'bcd\nabc';
+        var res = reg.exec(str)
+        console.log(res)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

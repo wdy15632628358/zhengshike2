@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>apply</title>
+</head>
+
+<body>
+    <script>
+        function fn() {
+            console.log([...arguments])
+            console.log(this)
+            console.log('---------------------------------------------------')
+        }
+        var obj = {
+            a: 1,
+            b: 2
+        }
+        Function.prototype.myApply = function myApply(context = window, arg = []) {//剩余运算符//call 要使用...arg
+            //this 就是 fn
+            //this(...ary)//扩展运算符
+            //让fn(this).fn执行并且让函数中的this指向是context
+            //context.qqq() qqq执行时 里边的this是context
+            // arg = arg || [];//不传就是空数组
+            // context = context || window;//不传参this就是window
+            let a = Symbol();//symbol产生一个唯一不重复的值，以防冲突
+            context[a] = this;//context.qqq --->this
+            let res = context[a](...arg);//让 fn 执行了并拿到传的参数
+            delete context[a];//删除增加的qqq属性
+            return res;//返回获取的参数结果
+        }
+        fn.myApply(obj, [3, 4, 5]);//call就直接散乱传3,4,5
+
+/*-----------------------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

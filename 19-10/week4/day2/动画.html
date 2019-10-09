@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid salmon;
+            text-align: center;
+            line-height: 200px;
+            user-select: none;
+            /*不能选中文字*/
+            position: relative;
+            /* left: 0;
+            transition: left 1s ease-in-out; */
+        }
+    </style>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+    <div id="box">珠峰培训</div>
+
+</body>
+
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<script>
+    // W3C getComputedStrle(元素)
+    //IE低版本使用， 元素.currentStyle
+    //监听窗口大小的改变 ：window.onresize
+    //window.requestAnimationFramw :帧动画 根据电脑的渲染时间
+
+    var box = document.getElementById('box');
+    let l = 0;
+    let w = document.documentElement.clientWidth || document.body.clientWidth;//一屏幕的宽度
+    let boxW = box.offsetWidth;
+    let maxL = w - boxW;//可移动的最大值：一屏幕宽度 - 盒子宽度
+    box.onclick = function () {
+        let timer = setInterval(() => {
+            l += 10;
+            if (l >= maxL) {
+                l = maxL;
+                clearInterval(timer)
+            }
+            box.style.left = l + 'px';
+        }, 10)
+    }
+
+
+    //clearInterval改成setTimeout：要用递归 自己调用自己
+    function fn() {
+        l += 10;
+        if (l >= maxL) {
+            l = maxL;
+        } else {
+            setTimeout(() => {
+                fn();
+            }, 10)
+        }
+        box.style.left = l + 'px';
+    }
+    fn();
+    //window.requestAnimationFrame(callback) :帧动画 根据电脑的渲染时间：相当于setTimeout
+    //setTimeout改成requestAnimationFrame
+    function fn() {
+        l += 10;
+        if (l >= maxL) {
+            l = maxL;
+        } else {
+            // setTimeout(() => {
+            //     fn();
+            // }, 10)
+            requestAnimationFrame(fn)//里边传一个回调函数：不用执行
+        }
+        box.style.left = l + 'px';
+    }
+    fn();
+
+    // //css3动画
+    // btn.onclick = function () {
+    //     box.style.left = maxL + 'px';
+    // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

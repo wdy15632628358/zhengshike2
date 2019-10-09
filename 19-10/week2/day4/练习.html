@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>练习</title>
+</head>
+
+<body>
+    <script>
+        // 下述函数执行的时候  一秒一输出   小明 会 css3 ； 小明会 html5 ;
+        /*
+        //普通模式
+        var obj = {
+             name: " 小明",
+             skill: ["css3", "html5", "es6", "react", "angular"],
+             say: function () {
+                 var s = ["css3", "html5", "es6", "react", "angular"];
+                 for (let i = 0; i < obj.skill.length; i++) {
+                     setTimeout(() => {
+                         console.log(`${obj.name} 会 ${obj.skill[i]}`);
+                     }, 1000 * (i + 1))
+                 }
+             }
+         }
+         obj.say();*/
+
+        /*
+        //第二种：构造函数
+        function Person(name, skill) {
+            this.name = name;
+            this.skill = skill;
+        }
+        Person.prototype.say = function () {
+            for (let i = 0; i < this.skill.length; i++) {
+                    setTimeout(() => {//必须使用箭头函数，使用普通函数要定义个变量
+                        console.log(`${this.name} 会 ${this.skill[i]}`);
+                    }, 1000 * (i + 1))
+                }
+        }
+        var p = new Person('小明', ["css3", "html5", "es6", "react", "angular"]);
+        var p2 = new Person('小绿', ["css3", "html5", "es6", "react", "angular"]);
+        p.say();
+        p2.say();*/
+
+
+        /*
+        //class类模式
+        class Person {
+            constructor(name, skill) {
+                this.name = name;
+                this.skill = skill;
+            }
+            say() {
+                for (let i = 0; i < this.skill.length; i++) {
+                    setTimeout(() => {//必须使用箭头函数，使用普通函数要定义个变量
+                        console.log(`${this.name} 会 ${this.skill[i]}`);
+                    }, 1000 * (i + 1));//这里不加括号里东西，就一秒全输出了
+                }
+            }
+        }
+        var p = new Person('小明', ["css3", "html5", "es6", "react", "angular"]);
+        var p2 = new Person('小红', ["跳舞", "画画"]);
+        p.say();
+        p2.say();*/
+
+        var name = '中国',
+            age = 5000;
+        function Person() {
+            getName = function () {//相当于function fn(){a=12//a不是私有的 也不是形参 所以是全局的}
+                console.log(this.name)
+            };
+            this.name = 'zfpx';
+            this.age = 9;
+        }
+        Person.name = '珠峰';//没有用，改不了function定义的
+        Person.getName = function () {//当对象用
+            console.log(this.name);
+        };
+        Person.prototype.getName = function () {//当类用
+            console.log(this.name);
+        };
+        var obj = {
+            name: '培训',
+            f: Person//普通函数
+        };
+        var per = new Person();//name :zfpx age:9
+        per.getName = function () {
+            console.log(12)
+        };
+        var per2 = new Person();////name :zfpx age:9
+        obj.f();
+        Person();
+        per.getName();
+        per2.getName();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>

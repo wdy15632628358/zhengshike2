@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>面试</title>
+</head>
+
+<body>
+    <script>
+        // 一个字符串中出现次数最多的字符：
+        //第一种方法
+
+        var str = 'asdfghasdfgfgersdfsdfgfdsdddsd';
+        function getMore(str) {
+            let obj = {}
+            for (let i = 0; i < str.length; i++) {
+                //把字符串的每一项当做属性名存起来
+                //存贮之前 先看 对象中有没有这个属性，没有就给obj；增加一个对应的属性， 属性值是；1
+                // 有的话 就在他现在值得基础上 加1
+                let t = str[i];
+                if (obj.hasOwnProperty(t)) {
+                    obj[t] += 1;
+                } else {
+                    obj[t] = 1;
+                }
+            }
+            let key = '', num = 0;
+            for (var k in obj) {
+                if (obj[k] > num) {
+                    key = k;
+                    num = obj[k];
+                }
+            }
+            return {
+                key,
+                num
+            }
+        }
+        console.log(getMore(str));//{key: "d", num: 9} //{n: "d", m: 9}
+
+    /*------------------------------------------------------------------------------*/
+        var str = 'asdfghasdfgfgersdfsdfgfdsdddsd';
+        function getMore2(str) {
+            str = str.split('').sort().join('');//
+            let reg = /(\w)\1*/g;
+            //第二种方法
+            //     console.log(str);//先获取想转为数组的字符串aadddddddddeffffffgggghrssssss
+            //     var arr = str.match(reg) //获取相同字符组成的数组
+            //     console.log(arr);// ["aa", "ddddddddd", "e", "ffffff", "gggg", "h", "r", "ssssss"]
+            //     arr.sort((a,b)=>{//数组排序 第一项就是 字符串最长的
+            //         return b.length - a.length
+            //     }) 
+
+            //     return {
+            //         key:arr[0][0],//返回第一项
+            //         num:arr[0].length//返回第一项的length
+            //     } 
+            let key = '', num = 0;
+            str.replace(reg, function (a, b) {
+                console.log(a,b)
+                if (a.length > num) {
+                    num = a.length;
+                    key = b;
+                }
+            })
+            return {
+                key,
+                num
+            }
+        }
+        console.log(getMore2(str));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>flat</title>
+</head>
+
+<body>
+    <script>
+        
+        //第一种情况
+        //如果数组的元素都是数字，那么我们可以考虑使用 toString 方法，因为：
+        var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+        function flatten(arr) {
+            return arr.toString().split(',').map(function (item) {//调用数组的tostring方法 ，在以逗号切割成数组，循环数组的每一项
+                return +item//进行字符串的拼接 字符串转为数组
+            })
+        }
+        console.log(flatten(arr));
+
+        /*
+        //第二种情况
+        //我们最一开始能想到的莫过于循环数组元素，如果还是一个数组，就递归调用该方法：
+        var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+        function flatten(arr) {
+            var result = [];
+            for (var i = 0, len = arr.length; i < len; i++) {
+                if (Array.isArray(arr[i])) {
+                    result = result.concat(flatten(arr[i]))
+                }
+                else {
+                    result.push(arr[i])
+                }
+            }
+            return result;
+        }
+        console.log(flatten(arr));*/
+        /*----------------------------------------------------*/
+        /* function fn(ary){
+             ary.forEach(item=>{
+                 if(typeof item == 'object'){
+                     fn(item)
+                 }else{
+                     temp.push(item)
+                 }
+             })
+         }
+         fn(arr)
+         return temp;
+         }*/
+        /*
+        //第三种情况
+        //ES6 增加了扩展运算符，用于取出参数对象的所有可遍历属性，拷贝到当前对象之中：
+        //这个concat只合并一层[1, 2, [3, 4],[5,6,[8,9]],7]这个就不行了
+          var arr = [1, 2, [3, 4],[5,6],7];
+            console.log([].concat(...arr)); // [1, 2, [3, 4]]
+        //解决这个问题 就用下面的 方法
+            /*---------------------------------------------*/
+        /*
+        let ary = [[1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14]]]], 10];
+            while (ary.some(item => Array.isArray(item))) {//判断是不是数组中的项
+            ary = [].concat(...ary);//是的话就合并
+        }
+         console.log(ary)*/
+
+        /*
+        //都四种情况//数组扁平化
+        var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+        arr.flat(Infinity)//数组扁平化，不知道理由包含几个数组 就传参数为Inifity
+        console.log(arr.flat(Infinity))
+        */
+        /*
+        //第五种 正则
+        var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 10];
+        let str = JSON.stringify(arr);//数组转字符串
+        str.replace(/\[|\]/g,'')//再把中括号转义一下，替换成空
+        */
+
+
+        //["A1", "A2", "A", "B1", "B2", "B", "C1", "C2", "C", "D1", "D2", "D"]
+        //合并下面两个数组 变成上面的
+        //先给b数组加一个3变成A3，然后在把添加的3替换成空
+        var a = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2']
+        var b = ['A', 'B', 'C', 'D']
+        var temp = b.map(item => item + '3')
+        console.log(a.concat(temp).sort().map(item => item.replace('3', '')))
+    
+    </script>
+</body>
+
+</html>

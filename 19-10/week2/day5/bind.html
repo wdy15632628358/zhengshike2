@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bind</title>
+</head>
+
+<body>
+    <button id='btn'>按钮1</button>
+    <button id='btn2'>按钮2</button>
+    <script>
+
+        function fn() {
+            console.log([...arguments]);
+            console.log(this);
+            console.log('---------------------------------------------------');
+        }
+        var obj = { a: 12 }
+        var res = fn.call(obj, 1, 2, 3);//返回时undefined
+        var res2 = fn.bind(obj, 1, 2, 3);//返回一个新函数
+        res2(6, 6, 6);//res2就是返回的新函数
+        //新函数 执行时，里面的this是obj；默认参数是1，2，3，返回结果是 fn的结果。
+        /*
+         传参 改this指向 返回新函数 this改
+        */
+        btn.onclick = fn;//this就是btn
+        btn2.onclick = res2;//this就是obj
+
+        Function.prototype.myBind = function (context, ...arg) {
+            //this  是  fn
+            var _this = this;
+            return function (...ary) {
+                return _this.apply(context, arg.concat(ary));//ES5的方法//此处就是给返回的新函数传参，然后参数和原来的this指向的参数拼接
+                //return _this.apply(context,[...arg,...ary])//ES6的方法
+            }
+
+        }
+        var res3 = fn.myBind(obj, 1, 2, 3, 4, 5);//res3是bind执行时返回的新函数
+        res3(1, 1, 1, 1, 1);//新函数执行
+
+
+        /*
+        this:
+        ***箭头函数中的this，是上级作用域的this，this和arguments是变量
+        ***new执行：函数中的this是当前创造的实例
+        ***定时器、自执行函数中的this 是window
+        ***普通函数中的this，看点 点前面是谁this就是谁 执行前面没点this就是window ，
+        ***自执行函数中的this ，是window
+        ***事件绑定函数中的this，this就是绑定的那个元素
+
+
+        */
+    </script>
+</body>
+
+</html>

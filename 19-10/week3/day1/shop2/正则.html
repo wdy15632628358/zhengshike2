@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>正则</title>
+</head>
+<body>
+    <script>
+    /*
+    正则：是一种处理 字符串 的规则（引用数据类型）
+    JS中的正则具体体现出来是一种数据类型：RegExp
+    JSb编写正则的两种方式：var reg = /q/   //字面量:一般都是字面量方式
+                         var reg new RegExp('\q');//构造函数方式：一边涉及到变量的时候才使用一次
+    Object.prototype.toString.call('reg')//"[object String]"
+    用途：  1.用于匹配 test：编写一个正则，看对应的字符串是否符合
+            2.用于捕获 exec：编写一个正则，可以把对应的字符串的符合规则的部分获取到
+    var reg = /qiefj / //双斜杠中间的内容我们称为正则的元字符；
+                       //外面的内容称为修饰符。
+
+    常用地元字符可以分为，有特殊含义的元字符 量次元字符 普通元字符
+    有特殊含义的元字符：
+    \   :转义字符  把正则中的有特殊含义的元字符转成字符本身（不再有特殊意义）
+    \d  :代表0-9之间的数字
+    \D  :代表除了0-9的任意字符
+    \w  :代表数字、字母、下划线
+    \W  :除了数字、字母、下划线之外的字符
+    ^   :代表 以什么字符 开头
+    $   :代表 以什么字符 结尾
+    .   :代表除了 换行 意外的字符（在中括号里的点就是点本身）
+    /n  :代表换行
+    [ab]:代表a或b：只能是单个字符
+    x|y :代表x或y：可以是多个字符
+    [^ab]:代表非ab
+    [a-z]:代表a-z之间的任意字符
+    [^a-z]:代表除了小写字母
+    ()   :代表分组和提升优先级的意思
+    (?:) :非 捕获 匹配
+    (?=) :
+    (?!) :
+
+    量次元字符：一般都是用在了其他元字符的后边
+    ？ ： 代表 前边的字符出现 0或1次
+    +  ： 代表 前边的字符出现 1或多次
+    *  ： 代表 前边的字符出现 0或多次
+    {n}:  代表 前边指定字符出现 n次
+    {n,m}:代表 前边的字符出现 n到m次
+    {n,} :代表 前边的字符出现 n到多次
+
+    修饰符：
+    i ：代表忽略大小写 ignoreCase
+    m ：代表多行匹配    mutiline
+    g ：代表全局匹配   global
+
+    */
+
+var ary = ['qqq','www','eee'];
+var arr = ary.map(item =>RegExp(item));
+console.log(arr)//3) [/qqq/, /www/, /eee/]
+
+var reg = /d/;//匹配d
+console.log(reg.test('wewe6266566'));//false
+console.log(reg.test('wewdddde6266566'));//true
+
+var reg = /\d/;//匹配0-9数字 === var reg = new RegExp('\\d')
+console.log(reg.test('wewe6266566'));//true
+console.log(reg.test('wewdddde1166566'));//true
+
+var reg = /\\d/;//转义第一个\
+console.log(reg.test('wewe6266566'));//false
+console.log(reg.test('weddd\\de1166'));//true
+
+var reg = /\w/;
+console.log(reg.test('_'));//true
+console.log(reg.test('.,.,.,'));//false
+
+
+var reg = /\d?/;//匹配0-9 0或1次有符合就是true
+console.log(reg.test('sf323423weefefsf'))//true
+
+var reg = /\d+/;////匹配0-9 1或多次
+console.log(reg.test('sfwfwfsdfweefefsf'))//false
+
+var reg = /\d*/;////匹配0-9 0或多次
+console.log(reg.test('sfwfwfsdfwe3efefsf'))//true
+
+var reg = /\d{2}/;
+console.log(reg.test('sf323423weefefsf'))//true
+console.log(reg.test('sf3weefefsf'))//false
+
+var reg = /^d/;//匹配第一个字符
+console.log(reg.test('qwer12346'));//false
+console.log(reg.test('dfgh12346'));//true
+
+var reg = /^\d/;//匹配第一个字符
+console.log(reg.test('qwer12346'));//false
+console.log(reg.test('dfgh12346'));//false
+
+var reg = /d$/;//匹配最后一个字符
+console.log(reg.test('qwer12346'));//false
+console.log(reg.test('dfgh12346dd'));//true
+
+var reg = /d{2}$/;//匹配最后两个d结尾字符
+console.log(reg.test('qwer12346'));//false
+console.log(reg.test('dfgh12346d'));//true
+console.log(reg.test('dfgh12346ddd'));//true
+
+
+var reg = /wd{2}$/;//匹配一个w俩d结尾字符：匹配最近一个字符
+console.log(reg.test('qwer12346'));//false
+console.log(reg.test('dfgh12346wwwdd'));//true
+
+
+var reg = /^d$/;//d开头d结尾 中间是个d 就是一个d
+console.log(reg.test('qwer12346d'));//false
+console.log(reg.test('dfgh12346dd'));//false
+console.log(reg.test('d'));//false
+
+var reg = /^d\wd$/;//d开头d结尾 中间是一个数字 字母 下划线
+console.log(reg.test('dfgh12346dd'));//false
+console.log(reg.test('d'));//false
+console.log(reg.test('d_d'));//true
+console.log(reg.test('d8d'));//true
+
+var reg = /(wd){2}$/;//以两个wd结尾
+console.log(reg.test('wdwd'));//true
+
+var reg = /^\d.123$/;//以数字开头，3结尾 3前边是12 12前边是除了换行的任意字符
+console.log(reg.test('123.123'))//false
+console.log(reg.test('q123.123'))//false
+console.log(reg.test('123q123'))//false
+console.log(reg.test('123q.123'))//false
+console.log(reg.test('1q123'))//true
+
+var reg = /^\d+.123$/;//n个数字 任意一个字符 123
+console.log(reg.test('123q.123'))//false多了一个字符除了换行
+
+
+var reg = /^\d?$/ //以0或1次数字开头，以0或1次数字结尾（0-9单个数字和空字符串都行）
+var reg = /^\d*$/ //以0或多次数字开头，以0或多次数字结尾（0-9多个数字 和空字符串都行）
+var reg = /^\d+$/ // 以1或多次数字开头，以1或多次数字结尾(0-9至少一个数字 空字符串不行)
+var reg = /\d{3}/ // 连续出现三个数字就可以
+var reg = /^\d{3}$/ //以三个数字开头，三个数字结尾：（中间就三个数字）
+var reg = /^[1.2]$/ //[.]中括号里的点 代表点本身 （代表1或点或者2就三个字符）
+var reg = /^[1.2]*$/ //只要字符串是由1或2或.三个字符组成的几位都可以
+
+var reg = /^18|19/  //以18 开头 或者 有19（或的优先级高，左右是两个整体）
+console.log(reg.test('44451942342'))//true
+var reg = /^18|19$/ //以18开头 或者 19结尾 
+var reg = /^(18|19)$/ //中括号匹配 不提分组 (只能匹配 18 或者19) === var reg = /^1[89]$/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>

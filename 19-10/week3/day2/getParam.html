@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>getParam</title>
+</head>
+
+<body>
+    <script>
+        //封装一个getParam：直接把东西都拿到
+        RegExp.prototype.execAll = function (str) {
+            //如果么有加全局的g就会死循环 怎么解决？ *使用global判断一下 默认值true
+            let _this = this;
+            if (!_this.global) {
+                /*_this = eval(_this + 'g')*/
+                let s = /^\/(.+)\/$/.exec(_this + '')[1];
+                _this = new RegExp(s, 'g');
+            }
+            let res = _this.exec(str);
+            let ary = [];
+            while (res) {
+                ary.push(res);
+                res = _this.exec(str)
+            }
+            return ary;
+        }
+        // var str = '珠峰2019培训2020培训珠峰11';
+        // var reg = /\d+/; //2019 2020 null
+        // console.log(reg.execAll(str));
+
+        //第一种方法 execAll实现 getParam();
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13';
+        function getParam(url) {
+            var reg = 0/([^?=&]+)=([^?=&#]+)/g; //以=号分割，获取想要的字符 
+            var obj = {};
+            reg.execAll(url).forEach(item => {//execAll分割成：大正则内容 小分组1 小分组2：["lx=1", "lx", "1",
+                obj[item[1]] = item[2]//不需要再切割 ，直接使用索引1和索引2就可以了
+            })
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str));//{lx: "1", from: "wx", b: "12", c: "13"}
+
+
+        /*
+        //第二种方法 replace 实现1getParam();
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13';
+        function getParam(url) {
+            var reg = /([^?=&]+)=([^?=&#]+)/g; //以=号分割，获取想要的字符
+            let obj ={};
+            var res = str.replace(reg,function($0,$1,$2){//$0代表大正则内容 $1代表第一个分组 $2代表第二个分组
+            console.log($0,$1,$2);//lx=1 lx 1
+                obj[$1] = $2;
+            })
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str));//{lx: "1", from: "wx", b: "12", c: "13"}*/
+
+        /*
+        //第三种方法 match实现 getParam（）；
+        var str = 'http://www.zhufengpeixun.cn/?lx=1&from=wx&b=12&c=13';
+        function getParam(url) {
+            var reg = /([^?=&]+)=([^?=&#]+)/g; //以=号分割，获取想要的字符
+            var obj = {};
+            url.match(reg).forEach(item => {   //match分割直接是大正则内容["lx=1", "from=wx", "b=12", "c=13"]
+                let a = item.split('=');//需要再以=切割一下变成：["lx", "1"]
+                obj[a[0]] = a[1]//直接拿索引0和索引1就可以了
+            })
+            let v = url.match(/#(.+)/) ? url.match(/#(.+)/)[1] : null;
+            obj.hash = v;
+            return obj;
+        }
+        console.log(getParam(str));//{lx: "1", from: "wx", b: "12", c: "13"}
+        */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>节流</title>
+    <style>
+        #box {
+            height: 2000px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box"></div>
+</body>
+
+</html>
+<script>
+    //节流 在连续触发某个函数时  隔一段时间触发一次该函数
+    // var flag = true;
+    // window.onscroll = function () {
+    //     if (!flag) return
+    //     flag = false;
+    //     console.log(666)
+    //     setTimeout(() => {
+
+    //         flag = true;
+    //     }, 1000);//1000毫秒后让flag变为true
+    // }
+
+
+    function throttle(fn, wait) {
+        wait = wait || 1000;
+        let flag = true;
+        return function () {
+            if (!flag) return;
+            flag = false;
+            setTimeout(() => {
+                flag = true;
+                fn.call(this, ...arguments)
+            }, wait);
+        }
+    }
+    function f() {
+        console.log(this)
+    }
+    window.onscroll = throttle(f,1000)//在这里设置时间
+</script>

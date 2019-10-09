@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>选项卡</title>
+    <style>
+    *{margin:0;padding:0;list-style: none;}
+    .box{width:600px;margin:30px auto}
+    .btn_box{border:1px solid red;display:flex;}
+    .btn{flex:1;height: 50px;line-height: 50px;font-size: 20px;cursor: pointer;user-select: none;text-align: center;}
+    .btn:nth-child(2){border:1px solid green;border-top:none;border-bottom: none;}
+    .btn.current{ /*同时又 tab 和 current者两个类名的元素才会有对应的样式 */background: salmon;color:blue;}
+    .body_box{width:600px;height:600px;border:1px solid pink;border-top:none;overflow: hidden;box-sizing: border-box;}
+    .body{width:600px;height:500px;text-align: center;line-height: 300px;font-size:50px;display: none;}
+    .body.current{display:block;}
+
+    </style>
+</head>
+<body>
+
+    <div class="box">
+        <ul class="btn_box">
+            <li class="btn current">css</li>
+            <li class="btn">js</li>
+            <li class="btn">html</li>
+        </ul>
+        <ul class="body_box">
+            <li class="body current">css基础</li>
+            <li class="body">js基础</li>
+            <li class="body">HTML基础</li>
+        </ul>
+    </div>
+    
+   
+<script>
+            // /* 
+            //     选项卡思路： 点击上边的tab 让下边的body 跟着显示或者隐藏即可；
+            // */
+            let btns = document.querySelectorAll('.btn'),
+                bodys = document.querySelectorAll('.body');
+            // 1.for(let i = 0; i < btns.length; i++){
+            //     btns[i].onclick = function(){
+            //         // 给当前元素添加类名 兄弟移除current类名
+            //         // 先清除所有的current 再给当前元素添加
+            //         for(let j = 0 ; j < btns.length; j++){
+            //             btns[j].classList.remove('current');
+            //             bodys[j].classList.remove('current');
+            //         }
+            //         this.classList.add('current');
+            //         bodys[i].classList.add('current');
+            //     }
+            // }
+        //     
+    //     2.function clearClass(){
+    //     // 清除类名：
+    //     for(var i = 0; i < btns.length; i++){
+    //         btns[i].className = 'btn';
+    //         bodys[i].className = 'body'
+    //     }
+    // }
+
+    // function cli(i) {
+    //     return function(){
+    //         clearClass();
+    //         this.className = 'current btn';
+    //         bodys[i].className = 'current body';
+    //     }
+    // }
+    // for(var i = 0; i < btns.length; i++){
+    //     /* btns[i].onclick = function(){
+    //         clearClass();
+    //         this.className = 'current tab';
+    //         bodys[i].className = 'current body';
+    //     } */
+    //     btns[i].onclick = cli(i);
+    // }  
+
+    // 3.btns.forEach((item,index) => {
+    //     item.onclick = function () {
+    //         for (var i = 0; i < btns.length; i++) {
+    //             btns[i].className = 'btn';
+    //             bodys[i].className = 'body'
+    //         }
+    //         this.className = 'current btn';
+    //         bodys[index].className = 'current body';
+    //     }
+    // });  
+    function clearClass(){
+        // 清除类名：
+        for(var i = 0; i < btns.length; i++){
+            btns[i].className = 'btn';
+            bodys[i].className = 'body'
+        }
+    }
+    function fn(n){
+        return function(){
+            clearClass();
+            this.className = 'current btn';
+            bodys[n].className = 'current body';
+        }
+    }
+    for(var i = 0; i < btns.length; i++){
+        btns[i].onclick = fn(i)
+    }
+ </script>
+</body>
+</html>
