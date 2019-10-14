@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动画</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            background: red;
+            width: 200px;
+            height: 200px;
+            position: relative;
+            left: 0;
+            top:0;
+            /* transition: left 1s linear,top 3s ease-in; */
+            /* transition: all 1s; */
+            animation: move 3s linear infinite;
+            /*arr.flat(Infinity)*/
+        }
+        @keyframes move {
+            0%{
+                transform: translate(0，0)
+            }
+            50%{
+                transform: translate(800px，500px)
+            }
+            100%{
+                transform: translate(0，0)
+            }
+        }
+        /*
+        //让盒子上下居中 
+        1.display-flex  align-items:center
+        2.position:sbsolute; left:0;top:0;bottom:0;right:0;margin:auto;
+        3.top:50%;margin-top:-盒子一半的高度
+        4.top:50%;transform:translateY(-50%)  // 50% ：前边是父亲盒子的 后边的是自身的
+        */
+    </style>
+</head>
+
+<body>
+    <button id="btn">点我</button>
+    <div id="box">
+
+    </div>
+    
+</body>
+
+</html>
+
+<script>
+    //固定步长 固定时间
+    var box = document.getElementById('box');
+    btn.onclick = function(){
+        // box.style.left = 800 + 'px'
+        // box.style.top = '500px'
+        box.style.transform = 'translate(800px,500px)'//右 下
+        // box.style.top = '500px'
+    }
+    //目标位置 left 500px setInterval()实现
+    // var timer = null;
+    // let l = parseFloat(getComputedStyle(box).left);//获取初始值
+    // timer = setInterval(() => {
+    //     l += 10;
+    //     if (l >= 500) {
+    //         l = 500;
+    //         clearInterval(timer)
+    //     }
+    //     box.style.left = l + 'px';
+    // }, 10);
+
+    //setTimeout实现
+    // let l = parseFloat(getComputedStyle(box).left);//获取初始值
+    // function fn() {
+    //     l++;
+    //     if (l >= 500) {
+    //         l = 500;
+    //     } else {
+    //         console.log(666)
+    //         //requestAnimationFrame(cb)和setTimeout一样 只不过时间是系统控制的
+    //         setTimeout(() => {
+    //             fn()
+    //         }, 10);
+    //     }
+    //     box.style.left = l + 'px';
+    // }
+    // fn();
+
+    //requestAnimationFrame(cb)实现
+    // let l = parseFloat(getComputedStyle(box).left);//获取初始值
+    // function fn() {
+    //     l += 10;
+    //     if (l >= 500) {
+    //         l = 500;
+    //     } else {
+    //         console.log(666)
+    //         //requestAnimationFrame(cb)和setTimeout一样 只不过时间是系统控制的
+    //         requestAnimationFrame(() => {
+    //             fn();
+    //         })
+    //         box.style.left = l + 'px';
+    //     }
+    // }
+    //     fn();
+
+    //固定步长 根据时间算出步长
+    //速度 = 目标位置 - 初始位置/时间
+    // let l = parseFloat(getComputedStyle(box).left);//获取初始值
+    // let speet = (500 - l) / 1000;
+    // let time = 0;//记录运动过的时间
+    
+    // function fn() {
+    //     time += 10;
+    //     if (time >= 1000) {
+    //         time = 1000;
+    //     } else {
+    //         setTimeout(() => {
+    //             fn()
+    //         }, 10);
+    //         box.style.left = l + time * speet + 'px';//初始位置 + 移动过的距离 = 当前位置
+    //     }
+    // }
+    // fn();
+</script>
