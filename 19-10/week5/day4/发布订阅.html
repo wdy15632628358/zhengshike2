@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布订阅</title>
+</head>
+
+<body>
+    <button id="btn">点击</button>
+</body>
+
+</html>
+
+<script>
+    /* //订阅 的时候 把名字放入加入 到清单
+     //发布的时候 按照订阅的清单 去送期刊
+ 
+     var ary = [];//订阅者清单 //事件池
+     function on(f) {
+         //订阅函数 把对应的事件放到清单
+         ary.push(f);
+     }
+ 
+     function fire(n) {//发布
+         ary.forEach((f) => {
+             f.call(this, ...arguments);//按照清单送
+         })
+     }
+     function off(f) {
+         //取消定于
+         let n = ary.indexOf(f);
+         if(n != -1){
+            ele.ary.splice(n,1)
+        }
+     }
+     function f1() {
+         console.log(1, this)
+     }
+     function f2() {
+         console.log(2, this)
+     }
+     function f3() {
+         console.log(3, this)
+     }
+     on(f1);//绑定 发布订阅
+     on(f2);
+     on(f3);
+ 
+     fire(666);//送
+     off(f2);//取消f2发布订阅
+     btn.onclick = fire;
+ */
+
+    /* function on(ele, f) {
+         ele.ary = ele.ary || [];//事件池
+         ele.ary.push(f)
+     }
+     function fire(ele, ...arg) {
+         ele.ary = ele.ary || [];
+         ele.ary.forEach((item) => {
+             item.call(this, ...arg)
+         });
+     }
+     function off(ele, f) {
+         ele.ary = ele.ary || [];
+         let n = ele.ary.indexOf(f);
+         if (n != -1) {
+             ele.ary.splice(n, 1)
+         }
+     }*/
+
+    function on(ele, type, f) {
+        //不是原生事件 我们自己创造一个事件池
+        //认为规定一下 my开头的都是自定义的事件
+        if (/^my/.test(type)) {
+            ele[type] = ele[type] || [];
+            ele[type].push(f);
+        } else {
+            //原生事件不需要造  事件池
+            type = type.replace(/^on/, '')//防止传入的参数带着 'on'字符
+            ele.addEventListener(type, f, false);
+        }
+    }
+    function fire(ele, type, ...arg) {
+        //不是原生事件 我们把事件池中的事件执行
+        if (/^my/.test(type)) {
+            ele[type] = ele[type] || [];
+            ele[type].forEach((item) => {
+                item.call(this, ...arg);
+            })
+        }
+    }
+    function off(ele, type, f) {
+        //原生事件
+        if (/^my/.test(type)) {
+            ele[type] = ele[type] || [];
+            let n = ele[type].indexOf(f);
+            if (n != -1) {
+                ele[type].splice(n, 1);
+            }
+        } else {
+            //原生事件不需要造 事件池
+            type = type.replace(/^on/, '')//防止传入的参数带着 'on'字符
+            ele.removeEventListener(type, f, false);
+        }
+    }
+
+    var f1 = function () {
+        console.log(666);
+    }
+    on(btn, 'click', function(){
+        console.log('点击1')
+    })
+    on(btn, 'onclick',f1 )
+
+      off(btn, 'onclick', f1);//点击1
+    //  off(btn, 'click', f1);
+
+    var f2 = function () {
+        console.log(666);
+    }
+    on(btn, 'myFn', function () {
+        console.log('myFn');
+    })
+    on(btn, 'myFn', f2)
+
+    off(btn,'myFn',f2)//myFn
+
+    fire(btn, 'myFn');
+
+
+
+
+
+
+
+
+</script>

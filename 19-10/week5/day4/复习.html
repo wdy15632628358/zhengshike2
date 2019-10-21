@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>复习</title>
+</head>
+
+<body>
+    <div id="box"></div>
+</body>
+
+</html>
+
+<script>
+    /*
+    //放大镜 ：小蒙层/小盒子 === 小盒子/大图片 ，蒙层移动的方向各大图的移动方向是正好相反的
+    //大图以偶定的距离 与 小蒙层移动的距离 的比例关系 ：大盒子/小蒙层
+
+
+    //DOM二级事件绑定：box.addEventListener('事件类型'，回调函数，false)；
+                      box.removeEventListener('事件类型',绑定的那个回调函数的地址，false)
+                      IE:box.attachEvent('on事件类型'，回调函数):添加事件
+                         box.detachEvent('on事件类型'，回调函数)：移除事件
+    // ready :DOM结构加载完成 onload：所有资源加载完成(图片、文件)
+
+    //JQ事件绑定
+    $(document).ready(function(){
+        //DOM结构加载完成
+        consoleo.log(222)
+    })
+
+    //JQ利用的是DOM的二级事件绑定
+    // $('#box').on('click', function () {
+    //     console.log(666)
+    // })
+
+    //零几绑定事件
+    window.onload = function(){
+        //页面资源加载完成触发
+    }
+    //二级绑定事件
+    window.addEventListener('load',function(){
+
+    },false)
+   
+
+   //mouseenter：没有冒泡 
+   //mouseover ：有事件冒泡
+
+   //事件委托: 事件源 e.target
+
+   //拖拽：
+
+    //one事件
+    */
+    Element.prototype.one = function (type, cb) {
+        //this ===> box
+        function fn(e){//apply  不传e
+            cb.call(this, e)//apply(this,arguments)
+            this.removeEventListener('type',fn,false)
+        }
+        this.addEventListener('type', fn, false)//fn中的this 是box
+       
+        
+    }
+
+    box.one('click', function (e) {
+        console.log(e,this)
+    })
+
+</script>

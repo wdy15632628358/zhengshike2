@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>阻止默认行为</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #box {
+            width: 100px;
+            height: 100px;
+            /* margin:0px auto; */
+            background: red;
+            display: none;
+            position: absolute;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="https://baidu.com" id='a' target='_blank'>百度</a>
+    <div id="box" contenteditable="true">珠峰</div>
+</body>
+
+</html>
+<script>
+    //事件执行 先执行对应的事件 再执行阻止默认行为 但是在滚轮事件中，顺序相反
+    a.onclick = function (e) {
+        e = e || window.event;
+
+        var tar = e.target || e.srcElement;
+        console.log(a.getAttribute('href'));//获取 setAttribute:设置
+        // alert(666)
+        // e.preventDefault();//阻止默认行为
+        // return false;//阻止默认行为
+    }
+    window.oncontextmenu = function (e) {
+        e.preventDefault();
+        console.log(e.pageX, e.pageY)
+        box.style.display = 'block';
+        box.style.top = e.pageY + 'px';
+        box.style.left = e.pageX + 'px';
+    }
+    window.onclick = function () {
+        box.style.display = 'none'
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

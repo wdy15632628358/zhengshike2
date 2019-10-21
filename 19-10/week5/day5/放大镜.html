@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>原生放大镜</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #box {
+            overflow: hidden;
+        }
+
+        .lit_box {
+            width: 200px;
+            height: 200px;
+            border: 1px solid blue;
+            position: relative;
+            float: left;
+            margin: 50px;
+        }
+
+        .lit_box img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .lit_box .mask {
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            left: 0;
+            top: 0;
+            cursor: move;
+        }
+
+        .big_box {
+            width: 300px;
+            height: 300px;
+            border: 1px solid red;
+            float: left;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .big_box img {
+            width: 600px;
+            height: 600px;
+            position: absolute;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="box">
+        <div class="lit_box">
+            <img src="../day3./img/lit.jpg" alt="">
+            <div class="mask"></div>
+        </div>
+        <div class="big_box">
+            <img src="../day3./img/big.jpg" alt="">
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    //原生实现 放大镜效果
+    let mask = document.getElementsByClassName('mask')[0],
+        bigBox = document.getElementsByClassName('big_box')[0],
+        litBox = document.getElementsByClassName('lit_box')[0],
+        bigImg = bigBox.getElementsByTagName('img')[0];
+
+    //鼠标滑入 蒙层和大盒子显示
+    litBox.onmouseenter = function () {
+        mask.style.display = 'block';
+        bigBox.style.display = 'block';
+    }
+    //鼠标滑出 蒙层和大盒子隐藏
+    litBox.onmouseleave = function () {
+        mask.style.display = 'none';
+        bigBox.style.display = 'none';
+    }
+    //在小盒子上移动 需要让蒙层跟着移动
+    litBox.onmousemove = function (e) {
+        //e.pageX 鼠标到body的偏移量
+        e = e || window.event;
+        let o = offset(this);
+        //边界判断 蒙层不能出去小盒子0 0 100 100
+        let l = e.pageX - mask.clientWidth / 2 - o.l,//最大 100 最小0 
+            t = e.pageY - mask.clientHeight / 2 - o.t;//最大 100 最小0
+        let maxL = this.clientWidth - mask.clientWidth;
+        let maxT = this.clientHeight - mask.clientHeight;
+        l = l <= 0 ? 0 : (l >= maxL ? maxL : l)
+        t = t <= 0 ? 0 : (t >= maxT ? maxT : t)
+
+        // mask.style.left = e.pageX - mask.clientWidth / 2 - o.l + 'px';//鼠标的位置 - 小盒子的位置 就是鼠标到小盒子的位置
+        // mask.style.top = e.pageY - mask.clientHeight / 2 - o.t + 'px';
+        mask.style.left = l + 'px';
+        mask.style.top = t + 'px';
+
+        // 大图移动距离 ： 小蒙层/小盒子1/2  => 小蒙层/大盒子 1/4
+        let n = mask.offsetWidth / bigBox.offsetWidth;
+        bigImg.style.left = -l / n + 'px';
+        bigImg.style.top = -t / n + 'px';
+
+    }
+    function offset(ele) {
+        let l = ele.offsetLeft,
+            t = ele.offsetTop;
+        let temp = ele.offsetParent;
+        while (temp) {
+            l += temp.offsetLeft + temp.clientLeft;
+            t += temp.offsetTop + temp.clientTop;
+            temp = temp.offsetParent;
+        }
+        return {
+            l, t
+        }
+    }
+</script>

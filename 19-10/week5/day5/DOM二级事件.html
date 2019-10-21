@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>二级事件</title>
+    <style>
+        #btn {
+            width: 10px;
+            height: 10px;
+            background: red;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <buttom id="btn">点击</buttom>
+</body>
+
+</html>
+<script>
+    //二级事件
+    let btn = document.getElementById('btn')
+    function f1(e) { console.log(1, e) }
+    function f2(e) { console.log(2, e) }
+    function f3(e) { console.log(3, e) }
+    btn.addEventListener('click', f1, false)//冒泡
+    btn.addEventListener('mouseenter', f1, false)//冒泡
+    btn.addEventListener('mouseleave', f3, false)//冒泡
+    // btn.removeEventListener('click', f2, false)//冒泡
+
+
+    //结构事件
+    document.ready = function (cb) {
+        function fn(e) {
+            cb.call(this, e)
+            document.removeEventListener('DOMContentLoaded', fn, false)
+        }
+        document.addEventListener('DOMContentLoaded', fn, false)
+    }
+    document.ready(function () {
+        console.log('加载完成')
+    })
+
+
+    //one一次性事件
+    Element.prototype.one = function (type, cb) {
+        function fn(e) {
+            cb.call(this, e)
+            this.removeEventListener(type, fn, false)
+        }
+        this.addEventListener(type, fn, false)//绑定的是fn事件  所以this就是 btn
+    }
+    btn.one('click', function (e) {
+        console.log(e, this)
+    })
+</script>

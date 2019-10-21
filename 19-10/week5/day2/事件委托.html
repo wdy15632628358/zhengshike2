@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件委托</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            height: 50px;
+            border: 1px solid red;
+            margin: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id='ul'>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4
+        <li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+        <li>9</li>
+        <li>0</li>
+    </ul>
+
+</body>
+
+</html>
+<script>
+    //事件委托 利用的事件的冒泡传播机制
+    let ul = document.getElementById('ul')
+    ul.onclick = function (e) {
+        e = e || window.event;
+        var tar = e.target || e.srcElement
+        console.dir(tar)
+        if (tar.nodeName.toLowerCase() !== 'li') return;
+        alert(tar.innerText)
+
+    }
+
+
+    //求两个数组的交集
+    const intersection = (a, b) => {
+        const s = new Set(b);
+        return a.filter(x => s.has(x));
+    };
+
+    var res = intersection([1, 2, 3], [4, 3, 2]); // [2, 3]
+    console.log(res)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

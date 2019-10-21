@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .st {
+            /*
+            做一个胶囊形状：
+            width: 300px;//宽度长一点
+            height: 100px;
+            border-radius: 100px;//跟高度一样
+            */
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            cursor: move;
+            background: red;
+            position: absolute;
+            left: 0;
+            top: 0;
+            user-select: none;
+        }
+        box1 {
+            background: red;
+        }
+        #box1 {
+            background: chartreuse;
+        }
+
+        #box2 {
+            background: blue;
+        }
+
+        #box3 {
+            background: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" class="st">1</div>
+    <div id="box1" class="st">2</div>
+    <div id="box2" class="st">3</div>
+    <div id="box3" class="st">4</div>
+</body>
+
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    //鼠标按下 记录盒子和鼠标初始位置 鼠标移动 盒子跟着鼠标运动 
+    //鼠标当前位置 - 鼠标初始位置 + 盒子初始位置 === 盒子当前位置
+    //  松开 盒子停下跟随
+    //setCapture 火狐防止鼠标丢失的API
+
+/* //零级事件实现(两人合作就会出现问题)
+    let box = document.getElementById('box')
+    function move(e) {
+        this.style.left = e.pageX - this.startPx + this.startX + 'px';
+        this.style.top = e.pageY - this.startPy + this.startY + 'px';
+    }
+    box.onmousedown = function (e) {
+        this.startX = $(this).offset().left;
+        this.startY = $(this).offset().top;
+        this.startPx = e.pageX;
+        this.startPy = e.pageY;
+
+        document.onmousemove = move.bind(this)
+        document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+        }
+    }
+*/
+    //二级事件
+    let box = document.getElementById('box')
+    function move(e) {
+        this.style.left = e.pageX - this.startPx + this.startX + 'px';
+        this.style.top = e.pageY - this.startPy + this.startY + 'px';
+    }
+    function end(e){
+        document.removeEventListener('mousemove',this.MOVE,false);
+        document.removeEventListener('mouseup',this.END,false)
+    }
+    function start(e){
+        this.startX = $(this).offset().left;
+        this.startY = $(this).offset().top;
+        this.startPx = e.pageX;
+        this.startPy = e.pageY;
+        this.MOVE = move.bind(this);
+        this.END = end.bind(this);
+        // document.addEventListener('mousemove',this.MOVE,false) 
+        // document.addEventListener ('mouseup',function(){
+            // document.onmousemove = null;
+            // document.onmouseup = null;
+        document.addEventListener('mousemove',this.MOVE,false)
+        document.addEventListener('mouseup',this.END,false)
+    }
+    box.addEventListener('mousedown',start,false)
+    box1.addEventListener('mousedown',start,false)
+    box2.addEventListener('mousedown',start,false)
+    box3.addEventListener('mousedown',start,false)
+    
+    // box.addEventListener('mousedown',function(e){
+    //     this.startX = $(this).offset().left;
+    //     this.startY = $(this).offset().top;
+    //     this.startPx = e.pageX;
+    //     this.startPy = e.pageY;
+    //     this.MOVE = move.bind(this);
+    //     this.END = end.bind(this);
+    //     // document.addEventListener('mousemove',this.MOVE,false) 
+    //     // document.addEventListener ('mouseup',function(){
+    //         // document.onmousemove = null;
+    //         // document.onmouseup = null;
+    //     document.addEventListener('mousemove',this.MOVE,false)
+    //     document.addEventListener('mouseup',this.END,false)
+    //     // },false) 
+    // },false)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<script>
+    // let box = document.getElementById('box')
+    // //鼠标按下 记录盒子和鼠标初始位置 鼠标移动 盒子跟着鼠标运动 鼠标当前位置 - 鼠标初始位置 + 盒子初始位置 === 盒子当前位置
+    //  松开 盒子停下跟随
+    // function move(e) {
+    //     this.style.left = e.pageX - this.sx + 'px'
+    //     this.style.top = e.pageY - this.sy + 'px'
+    // }
+    // //移动鼠标、 
+    // box.addEventListener('mousedown', function (e) {
+    //     //鼠标按下时 记录鼠标的初始位置 记录到盒子自己的属性上
+    //     let o = offset(this);
+    //     this.sx = e.pageX - o.l;//鼠标在盒子上的初始位置
+    //     this.sy = e.pageY - o.t;
+    //     // this.addEventListener('mousemove', move, false)
+    //     //鼠标丢失的问题 我们通过给document绑定事件来解决
+    //     this.fn = move.bind(this);
+    //     document.addEventListener('mousemove', this.fn, false)//move.bind(this)保证move中的this 是box
+    //     //这样做的话 移除的和这个就不是一个函数
+    // }, false)
+    // //松开鼠标
+    // box.addEventListener('mouseup', function (e) {
+    //     document.removeEventListener('mousemove', this.fn, false)
+    // }, false)
+    // //获取盒子到body的距离
+    // function offset(ele) {
+    //     let l = ele.offsetLeft,
+    //         t = ele.offsetTop;
+    //     let temp = ele.offsetParent;
+    //     while (temp) {
+    //         l += temp.offsetLeft + temp.clientLeft;
+    //         t += temp.offsetTop + temp.clientTop;
+    //         temp = temp.offsetParent;
+    //     }
+    //     return {
+    //         l, t
+    //     }
+    // }
+
+    // //面向对象
+    // function Drag(id) {
+    //     this.box = document.getElementById(id);
+    //     // 鼠标按下 决定了盒子可以跟随鼠标移动   鼠标抬起  盒子就停止跟随
+    //     // var fn = null;
+    //     var _this = this;
+    //     this.box.addEventListener('mousedown', function (e) {
+    //         //鼠标按下时 记录鼠标的初始位置 记录到盒子自己的属性上
+    //         let o = _this.offset(this);
+    //         this.sx = e.pageX - o.l;//鼠标在盒子上的初始位置
+    //         this.sy = e.pageY - o.t;
+    //         // this.addEventListener('mousemove', move, false)
+    //         //鼠标丢失的问题 我们通过给document绑定事件来解决
+    //         _this.fn = _this.move.bind(this);
+    //         document.addEventListener('mousemove', _this.fn, false)//move.bind(this)保证move中的this 是box
+    //         //这样做的话 移除的和这个就不是一个函数
+    //     }, false)
+    //     //松开鼠标
+    //     this.box.addEventListener('mouseup', function (e) {
+    //         document.removeEventListener('mousemove', _this.fn, false)
+    //     }, false)
+
+    // }
+    // Drag.prototype.move = function (e) {
+    //     //鼠标按下 盒子跟着鼠标运动  松开 盒子停下
+    //     //this是当前实例
+    //     this.style.left = e.pageX - this.sx + 'px'
+    //     this.style.top = e.pageY - this.sy + 'px'
+    // }
+    // Drag.prototype.offset = function (ele) {
+    //     //获取盒子到body的距离
+    //     let l = ele.offsetLeft,
+    //         t = ele.offsetTop;
+    //     let temp = ele.offsetParent;
+    //     while (temp) {
+    //         l += temp.offsetLeft + temp.clientLeft;
+    //         t += temp.offsetTop + temp.clientTop;
+    //         temp = temp.offsetParent;
+    //     }
+    //     return {
+    //         l, t
+    //     }
+    // }
+    // new Drag('box');
+    // // new Drag('box1');
+    // // new Drag('box2');
+    // // new Drag('box3');
+
+</script>

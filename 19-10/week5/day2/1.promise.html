@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    let p = new Promise(function(res,rej){
+        // setTimeout(() => {
+        // console.log(qqq)
+        // }, 2000);
+        // $.ajax({
+        //     url:'./data,json',
+        //     success:function(data){
+        //         res(data)//状态一经发生改变就不会再发生任何改变
+        //     },error:function(err){
+        //         rej(err)
+        //     }
+        // })
+        res(data)
+        rej(data)
+    }).then(function(data){
+        console.log(1)
+    },function(error){//捕获过错误信息了 在使用catch就捕获不到了
+        console.log(0)
+    }).finally(()=>{
+        //不管成功还是失败 我们都要执行的代码 我们可以放到这个函数中
+    })
+
+    //then catch finally 这三个方法在promise的原型上
+    //all race resolve reject
+
+//executor函数数同步的（promise括号里的回调函数） then catch里边的函数都是异步的
+    var p1 = new Promise(function(res,rej){
+        setTimeout(() => {
+            res(111)
+        }, 1000);
+    });
+    var p2 = new Promise(function(res,rej){
+        setTimeout(() => {
+            res(222)
+        }, 2000);
+    });
+    var p3 = new Promise(function(res,rej){
+        setTimeout(() => {
+            res(333)
+        }, 4000);
+    });
+
+Promise.all([p1,p2,p3]).then(function(data){//全成功才走成功的回调 只要有一个不成功就走不成功的那个回调
+    console.log('data',data)
+},(err)=>{
+    console.log('err',err)
+});
+// Promise.allSettled([p1,p2,p3]).then(function(data){
+//     console.log(data)
+// });
+Promise.race([p1,p2,p3]).then(function(data){//p1 p2 p3谁先走完谁就输出
+    console.log('success',data)
+},(err)=>{
+    console.log('fail',err)
+})
+
+Promise.resolve(333).then(function(data){
+    console.log(data)
+})
+Promise.reject(444).then(function(data){
+    console.log(data)
+}).catch((err)=>{
+    console.log(err)
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

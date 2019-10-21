@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鼠标事件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #screen {
+            width: 100%;
+        }
+
+        .offScreen {
+            display: fixed;
+            width: 400px;
+            opacity: 0.5;
+            height: 200px;
+            background: chartreuse;
+            display: inline-block;
+            position: absolute;
+            left: 50px;
+            top: 50px;
+            display: none;
+            z-index: 2;
+        }
+
+        .litImgBox {
+            display: inline-block;
+            width: 400px;
+            position: relative;
+            z-index: 1;
+        }
+
+
+
+        .litImg {
+            width: 400px;
+            height: 200px;
+            display: block;
+            margin: 50px;
+            border: 1px solid red;
+        }
+
+        .bitImgBox {
+            margin-left: 200px;
+            display: inline-block;
+        }
+
+        .bigImg {
+            width: 600px;
+            display: none;
+            position: absolute;
+            height: 300px;
+            border: 1px solid red;
+            z-index: 3;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="screen">
+
+        <div class="litImgBox">
+            <img src="./img/3.jpg" alt="" class="litImg">
+        </div>
+
+
+        <div class="bitImgBox">
+            <img src="./img/3.jpg" alt="" class="bigImg">
+        </div>
+        <div class="offScreen"></div>
+    </div>
+
+</body>
+
+</html>
+<script>
+    let litImgs = document.getElementsByClassName('litImg')
+    offScreen = document.getElementsByClassName('offScreen')
+    bigImgs = document.getElementsByClassName('bigImg')
+
+    for (let i = 0; i < litImgs.length; i++) {
+        litImgs[i].onmouseenter = function () {
+            offScreen[i].style.display = 'block';
+            offScreen[i].onmouseenter = function () {
+                bigImgs[i].style.display = 'block';
+            }
+           
+            offScreen[i].onmousemove = function (e) {
+                let { pageX, pageY } = e;
+                bigImgs[i].style.width = pageX*2.5  + 'px';
+                bigImgs[i].style.height = pageY*2.5 +'px';
+            }
+        }
+
+        offScreen[i].onmouseleave = function () {
+            bigImgs[i].style.display = 'none'
+            offScreen[i].style.display = 'none';
+            litImgs[i].onmousemove = null;
+        }
+    }
+
+
+</script>

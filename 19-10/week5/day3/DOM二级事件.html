@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>二级事件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        div {
+            box-sizing: border-box;
+        }
+
+        #outer {
+            width: 500px;
+            height: 500px;
+            background: red;
+            margin: 50px auto;
+            padding: 50px;
+        }
+
+        #center {
+            width: 400px;
+            height: 400px;
+            background: yellow;
+            padding: 50px;
+        }
+
+        #inner {
+            width: 300px;
+            height: 300px;
+            background: salmon;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outer">
+        <div id="center">
+            <div id="inner">
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    let outer = document.getElementById('outer'),
+        center = document.getElementById('center'),
+        inner = document.getElementById('inner');
+    //DOM零级事件绑定（下面只触发一次555）
+    // box.onclick = function () {
+    //     console.log(666)
+    // }
+    // box.onclick = function () {
+    //     console.log(555)
+    // }
+    //移除 点击事件 box.onclick = null;
+
+    //JQ利用的是DOM的二级事件绑定
+    // $('#box').on('click', function () {
+    //     console.log(666)
+    // })
+    // $('#box').on('click', function () {
+    //     console.log(555)
+    // })
+
+    //原生二级绑定事件
+    //false代表对应的函数需要在冒泡阶段触发，
+    //true代表对应的函数需要在捕获阶段触发。
+    //一般都是false
+    //IE低版本 已经放弃 attachEvent()
+    // outer.addEventListener('click', function () {
+    //     console.log(111)
+    // }, false)
+    // outer.addEventListener('click', function () {
+    //     console.log(111111)
+    // }, false)
+    // center.addEventListener('click', function () {
+    //     console.log(222)
+    // }, false)
+    // inner.addEventListener('click', function () {
+    //     console.log(333)
+    // }, false)
+
+    //二级事件 移除点击事件
+    // function f(e){
+    //     console.log(11,e.target)
+    // }
+    // inner.addEventListener('click',f,false)
+    // inner.removeEventListener('click',f,false)
+    // window.addEventListener('load',function(){
+    //     console.log('load')
+    // },false)
+    // window.addEventListener('DOMContentLoaded',function(){
+    //     console.log('ready')
+    // },false)
+
+
+    // function complete(){
+    //     console.log('你的业务代码')
+    //     window.removeEventListener('load',complete,false)
+    // }
+    // window.addEventListener('load',complete,false);
+
+
+    // window.ready = function(cb){
+    //     window.addEventListener('DOMContentLoaded',cb,false)
+    // }
+    // window.ready(function(){
+    //     console.log('结构加载完成')
+    // })
+
+    /*
+    DOM二级事件：元素.addEventListener('事件类型',回调函数,冒泡false或者捕获阶段true)
+    二级事件的同一个元素的同一个事件 可以绑定多个回调函数
+    
+    */
+    //一次性事件one
+    // $('#inner').one('click',function(){
+    //     console.log('one')
+    // })
+
+    //手写源码实现one一次性事件
+    Element.prototype.one = function (type, cb) {
+        //this 是 inner
+        function fn(e) { 
+            //this 就是 inner
+            cb.call(this,e) 
+            this.removeEventListener(type, fn, false)
+        }
+        this.addEventListener(type, fn, false)
+    }
+    
+    inner.one('click', function (e) {
+        console.log('myone',this)//为保证this指向是inner 需要call改变一下
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>

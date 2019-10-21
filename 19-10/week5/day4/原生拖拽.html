@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>原生</title>
+    <style>
+        #lit_box {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+
+        #big_box {
+            width: 400px;
+            height: 400px;
+            border: 1px solid blue;
+            margin: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    上传：<input type="text" id="inp">
+    <div id="lit_box" draggable="true"></div>
+    <div id="big_box"></div>
+</body>
+
+</html>
+
+<script>
+    /* 
+       // 可以使用 熊猫压缩 压缩图片
+      inp.oninput = function(e){
+        console.log(e.target.files[0])
+        let file = e.target.files[0]
+        let url = URL.createObjectURL(file)
+        big_box.innerHTML += `<img src="${url}"/>`
+    } */
+    var litBox = document.getElementById('lit_box'),
+        bigBox = document.getElementById('big_box');
+
+    //小盒子方法三个
+    litBox.ondragstart = function (e) {
+        console.log('start', e)
+    }
+    // litBox.ondrag = function (e) {
+    //     console.log('拖动中')
+    // }
+    litBox.ondragend = function (e) {
+        console.log('end', e)
+    }
+    
+    //大盒子方法
+    bigBox.ondragenter = function () {
+        console.log('拖进来')
+    }
+    bigBox.ondragover = function (e) {
+        console.log('拖上来')
+        e.preventDefault()
+    }
+    bigBox.ondragleave = function () {
+        console.log('离开')
+    }
+    bigBox.ondrop = function (e) {//和over那个事件使用
+        e.preventDefault();//阻止默认打开图片
+        console.log(e.dataTransfer.files[0]);
+        let file = e.dataTransfer.files[0];//
+        let url = URL.createObjectURL(file)//产生对应文件的路径
+           console.log(url)
+           console.log(file)//type: "image/jpeg" 用这个判断一下是不是图片
+           this.innerHTML = `<img src="${url}">`;
+
+
+
+        /* let res = new FileReader();
+         res.readAsDataURL(file)
+         res.onload = function (e){
+            console.log(e)
+            // _this.innerHTML = `<img src="${e.target.result}">`
+            _this.innerHTML = e.target.result;
+         } */
+    }
+
+
+
+
+
+
+</script>

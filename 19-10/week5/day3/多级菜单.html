@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多级菜单</title>
+    <style>
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="box">
+        <li>
+            <span>一级菜单1</span>
+            <ul>
+                <li>
+                    <span>二级菜单1</span>
+                    <ul>
+                        <li>
+                            <span>三级菜单1</span>
+                        </li>
+                        <li>
+                            <span>三级菜单2</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>二级菜单2</span>
+                    <ul>
+                        <li>
+                            <span>三级菜单3</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>二级菜单3</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <span>一级菜单2</span>
+            <ul>
+                <li>
+                    <span>二级菜单4</span>
+                    <ul>
+                        <li>
+                            <span>三级菜单4</span>
+                        </li>
+                        <li>
+                            <span>三级菜单5</span>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <span>二级菜单5</span>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <span>一级菜单3</span>
+            <ul>
+                <li>
+                    <span>二级菜单6</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</body>
+
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    // //点击box 通过e.target判断点击的元素是不是span 是的话就让他的兄弟隐藏  不是就啥也不干
+    // let box = document.getElementById('box');
+    // box.onclick = function (e) {
+    //     e = e || window.event;
+    //     var tar = e.target || e.srcElement;//点击的那个元素
+    //     if (tar.nodeName.toLowerCase() == 'span') {
+    //         let nextE = tar.nextElementSibling;//span对应的那个兄弟 ul
+    //         nextE && nextE.classList.toggle('hide')//判断菜单有没有下级 有就但没有就不不能点
+    //         if (nextE && nextE.classList.contains('hide')) {
+    //             //自己遮住之后 所有的儿子都遮住
+    //             let uls = nextE.getElementsByTagName('ul');
+    //             for (let i = 0; i < uls.length; i++) {
+    //                 uls[i].classList.add('hide')
+    //             }
+    //         }
+    //     }
+    // }
+//JQ实现
+    $('#box').on('click', function (e) {
+        var tar = e.target;
+        var $tar = $(tar);
+        if (tar.nodeName.toLowerCase() == 'span') {
+            let $nextE = $tar.siblings('ul');//span对应的那个兄弟 ul
+            $nextE.toggleClass('hide')//判断菜单有没有下级 有就但没有就不不能点
+            if ($nextE.hasClass('hide')) {
+                //自己遮住之后 所有的儿子都遮住
+                $nextE.find('ul').addClass('hide');
+
+            }
+        }
+    });
+
+
+</script>

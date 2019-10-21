@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 200px;
+            background: #ccc;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box" contenteditable="true"></div>
+    请输入：<input type="text" id="inp">
+    <button id="btn">按钮</button>
+</body>
+
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script>
+    /*
+    阻止默认事件：preventDefault();
+    事件：onclick：点击
+          ondblclick:双击
+          onmouseenter:鼠标移入
+          onmouseover:鼠标滑过
+          onmouseleave:鼠标移出
+          onmouseout:鼠标滑出
+          onmousemove:鼠标滑动
+          onmousewheel:鼠标滚轮
+          onmousedown:鼠标按下
+          onmouseup:鼠标抬起
+          oncontextmenu:鼠标右键
+
+    */
+    let box = document.getElementById('box')
+    // box.ondblclick = function(){
+    //     console.log('双击')
+    // }
+    //  box.onmousemove = function(){
+    //     console.log('双击')
+    // }
+    // box.onclick = function(){
+    //     console.log('点击')
+    // }
+    // box.onmousedown = function(){
+    //     console.log('按下')
+    // }
+    // box.onmouseup = function(){
+    //     console.log('抬起')
+    // }
+    // box.oncontextmenu = function(e){
+    //     console.log('右键')
+    //     e.preventDefault();
+    // }
+
+    /*
+    键盘事件：
+    //onkeydown:键盘按下
+    //onkeyup:键盘抬起
+    //onkeypress:按下抬起
+    //window document.body input textarea
+    */
+    // box.onkeydown = function(){
+    //     console.log('key')
+
+    // }
+
+    /*
+    //input 
+    //onfocus :获取焦点
+    //onblur  :失去焦点
+    //oninput :内容改变就触发
+    //onchange:内容发生改变并且失去焦点的时候触发
+
+    */
+    //    inp.onfocus = function(){
+    //        console.log('获取焦点')
+    //    }
+    //    inp.onblur = function(){
+    //        console.log('失去焦点')
+    //    }
+    //    inp.onchange = function(){
+    //        console.log('内容改变失去焦点')
+    //    }
+    //    inp.oninput = function(){
+    //        console.log('内容改变')
+    //    }
+    //    btn.onfocus = function(){
+    //        console.log('获取焦点')
+    //    }
+
+
+    /*
+    系统事件：
+           //window.onscroll：页面滚动 只要可以出现滚动条的元素 都可以绑定
+           //window.onresize: 窗口大小发生改变的时候
+           //window.onload:   页面资源加载完成之后
+    */
+    window.onload = function () {
+        //页面资源加载完成 之后触发
+        console.log('load')
+    }
+    $(window).ready(function () {
+        //ready DOM结构加载完成 之后触发
+        console.log('ready')
+    })
+
+</script>
